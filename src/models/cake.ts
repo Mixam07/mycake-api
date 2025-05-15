@@ -3,14 +3,14 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 export interface ICake extends Document {
     name: string;
     description: string;
-    status: boolean;
+    status?: boolean;
     price: number;
     tags: string[];
-    weight: number;
-    filling: string[];
-    additional_services: string[];
-    min_weight: number;
-    max_weight: number;
+    weight?: number;
+    filling?: string[];
+    additional_services?: string[];
+    min_weight?: number;
+    max_weight?: number;
     photos: Buffer[];
     confectioner: mongoose.Schema.Types.ObjectId;
 
@@ -44,11 +44,11 @@ const cakeSchema = new Schema<ICake>({
     },
     tags: {
         type: [String],
+        required: true,
         default: [],
     },
     weight: {
         type: Number,
-        required: true,
         validate(value: number) {
             if (value < 0 || value > 1000) {
                 throw new Error("Weight must be a positive number and not exceed 1000 kg");
@@ -57,15 +57,12 @@ const cakeSchema = new Schema<ICake>({
     },
     filling: {
         type: [String],
-        required: true,
     },
     additional_services: {
         type: [String],
-        required: true,
     },
     min_weight: {
         type: Number,
-        required: true,
         validate(value: number) {
             if (value < 0 || value > 1000) {
                 throw new Error("Min weight must be a positive number and not exceed 1000 kg");
@@ -74,7 +71,6 @@ const cakeSchema = new Schema<ICake>({
     },
     max_weight: {
         type: Number,
-        required: true,
         validate(value: number) {
             if (value < 0 || value > 1000) {
                 throw new Error("Max weight must be a positive number and not exceed 1000 kg");
@@ -148,6 +144,6 @@ cakeSchema.methods.getPublicData = async function () {
     return publicCakeData;
 };
 
-const Cake: Model<ICake> = mongoose.model<ICake>("Cake", cakeSchema);
+const Cake: Model<ICake> = mongoose.model<ICake>("cake", cakeSchema);
 
 export default Cake;

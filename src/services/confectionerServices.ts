@@ -12,16 +12,6 @@ const getConfectioners = async (limit: number, skip: number) => {
     return response;
 }
 
-const getConfectionerById = async (id: string) => {
-    const confectioner = await confectionerRepository.getConfectionerById(id);
-
-    if (!confectioner) {
-        throw new Error("User not found")
-    }
-
-    return await confectioner.getPublicData();
-}
-
 const getPhoto = async (id: string) => {
     const confectioner = await confectionerRepository.getConfectionerById(id);
 
@@ -96,7 +86,6 @@ const deleteConfectioner = async (id: string) => {
 
 export default {
     getConfectioners,
-    getConfectionerById,
     getPhoto,
     registration,
     updateConfectioner,

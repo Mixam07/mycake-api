@@ -37,7 +37,7 @@ const ConfectionerSchema: Schema<IConfectioner> = new Schema({
     code: String,
     cakes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Cake"
+        ref: "cake"
     }]
 });
 

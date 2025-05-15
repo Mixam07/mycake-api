@@ -23,4 +23,6 @@ router.post("/code", userController.code);
 
 router.post("/logout", userController.logout);
 
+router.get("/user/:id", userController.getUserById);
+
 export default router;

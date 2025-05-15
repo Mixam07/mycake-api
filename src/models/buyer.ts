@@ -23,7 +23,7 @@ const buyersSchema = new Schema<BuyerDocument>({
 
 buyersSchema.methods.getPublicData = async function (): Promise<Record<string, any>> {
     const buyer = this;
-    const readableValues = ["name", "email", "_id"];
+    const readableValues = ["name", "email", "id"];
     const publicBuyersData: Record<string, any> = {};
 
     readableValues.forEach((key) => {
@@ -42,6 +42,6 @@ buyersSchema.methods.getPublicData = async function (): Promise<Record<string, a
     return publicBuyersData;
 };
 
-const Buyer: Model<BuyerDocument> = mongoose.model<BuyerDocument>("buyers", buyersSchema);
+const Buyer: Model<BuyerDocument> = mongoose.model<BuyerDocument>("buyer", buyersSchema);
 
 export default Buyer;

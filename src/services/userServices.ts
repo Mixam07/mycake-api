@@ -59,8 +59,19 @@ const code = async (email: string, code: string, setCookie: any) => {
     return await user.getPublicData();
 }
 
+const getUserById = async (id: string) => {
+    const user = await buyerRepository.getBuyerById(id) || await confectionerRepository.getConfectionerById(id);
+
+    if (!user) {
+        throw new Error("Buyer not found");
+    }
+
+    return await user.getPublicData();
+}
+
 export default {
     getAuth,
     login,
-    code
+    code,
+    getUserById
 }

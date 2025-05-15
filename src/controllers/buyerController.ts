@@ -14,16 +14,6 @@ const getBuyers = async (req: Request, res: Response) => {
     }
 }
 
-const getBuyerById = async (req: Request, res: Response): Promise<any> => {
-    try {
-        const buyer = await buyerServices.getBuyerById(req.params.id);
-
-        res.status(200).send(buyer);
-    } catch (e) {
-        res.status(404).send(e);
-    }
-}
-
 const getPhoto = async (req: Request, res: Response): Promise<any> => {
     try {
         const photo = await buyerServices.getPhoto(req.params.id)
@@ -69,7 +59,6 @@ const deleteBuyer = async (req: Request, res: Response): Promise<any> => {
 
 export default {
     getBuyers,
-    getBuyerById,
     getPhoto,
     registration,
     updateBuyer,

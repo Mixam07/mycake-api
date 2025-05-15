@@ -14,16 +14,6 @@ const getConfectioners = async (req: Request, res: Response) => {
     }
 }
 
-const getConfectionerById = async (req: Request, res: Response) => {
-    try {
-        const confectioner = await confectionerServices.getConfectionerById(req.params.id);
-
-        res.status(200).send(confectioner);
-    } catch (e) {
-        res.status(404).send(e);
-    }
-}
-
 const getPhoto = async (req: Request, res: Response) => {
     try {
         const photo = await confectionerServices.getPhoto(req.params.id);
@@ -69,7 +59,6 @@ const deleteConfectioner = async (req: Request, res: Response) => {
 
 export default {
     getConfectioners,
-    getConfectionerById,
     getPhoto,
     registration,
     updateConfectioner,

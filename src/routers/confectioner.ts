@@ -17,8 +17,6 @@ const upload = multer({
 
 router.get("/confectioners", confectionerController.getConfectioners);
 
-router.get("/confectioners/:id", confectionerController.getConfectionerById);
-
 router.get("/confectioners/:id/photo", confectionerController.getPhoto);
 
 router.post("/confectioners/registration", confectionerController.registration);

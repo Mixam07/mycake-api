@@ -45,8 +45,19 @@ const logout = async (req: Request, res: Response): Promise<any> => {
     }
 }
 
+const getUserById = async (req: Request, res: Response): Promise<any> => {
+    try {
+        const user = await userServices.getUserById(req.params.id);
+
+        res.status(200).send(user);
+    } catch (e) {
+        res.status(404).send(e);
+    }
+}
+
 export default {
     getAuth,
+    getUserById,
     login,
     code,
     logout

@@ -17,8 +17,6 @@ const upload = multer({
 
 router.get("/buyers", buyerController.getBuyers);
 
-router.get("/buyers/:id", buyerController.getBuyerById);
-
 router.get("/buyers/:id/photo", buyerController.getPhoto);
 
 router.post("/buyers/registration", buyerController.registration);

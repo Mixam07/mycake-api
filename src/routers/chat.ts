@@ -2,16 +2,11 @@ import express, { Request, Response } from "express";
 import Chat from "../models/chat";
 import mongoose from "mongoose";
 import Buyer from "../models/buyer";
+import chatController from "../controllers/chatController";
 
 const router = express.Router();
 
-router.get("/chats/:userId", async (req: Request, res: Response) => {
-    const userId = new mongoose.Types.ObjectId(req.params.userId);
-  
-    const chats = await Chat.find({ "participants.user": userId }).populate("participants.user");
-  
-    res.send(chats);
-});
+router.get("/chats", chatController.getChats);
 
 router.post("/chats/:userId", async (req: Request, res: Response): Promise<any> => {
     try {
@@ -25,17 +20,14 @@ router.post("/chats/:userId", async (req: Request, res: Response): Promise<any> 
 
         type ModelType = "buyer" | "confectioner";
 
-        // Визначаємо модель відправника
-        let senderModel: ModelType = "buyer";  // Початково "buyer"
+        let senderModel: ModelType = "buyer";
         const sender = await Buyer.findById(senderId);
-        if (!sender) senderModel = "confectioner";  // Якщо не знайдено відправника, вважаємо його кондитером
+        if (!sender) senderModel = "confectioner";
 
-        // Визначаємо модель отримувача
-        let receiverModel: ModelType = "buyer";  // Початково "buyer"
+        let receiverModel: ModelType = "buyer";
         const receiver = await Buyer.findById(receiverId);
         if (!receiver) receiverModel = "confectioner";
 
-        // Шукаємо або створюємо чат
         let chat = await Chat.findOne({
             "participants.user": {
                 $all: [new mongoose.Types.ObjectId(senderId), new mongoose.Types.ObjectId(receiverId)]
@@ -52,12 +44,10 @@ router.post("/chats/:userId", async (req: Request, res: Response): Promise<any> 
             });
         }
 
-        // Додаємо повідомлення
+        const userName = sender ? sender.name: "";
+
         chat.messages.push({
-            sender: {
-                user: senderId,
-                userModel: senderModel
-            },
+            user: userName,
             text,
             createdAt: new Date()
         });

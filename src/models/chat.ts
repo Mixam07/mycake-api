@@ -6,10 +6,7 @@ export interface IChat extends Document {
         userModel: "buyer" | "confectioner";
     }[];
     messages: {
-        sender: {
-            user: mongoose.Types.ObjectId;
-            userModel: "buyer" | "confectioner";
-        };
+        user: String,
         text: string;
         createdAt: Date;
     }[];
@@ -29,17 +26,9 @@ const ChatSchema = new Schema<IChat>({
         }
     }],
     messages: [{
-        sender: {
-            user: {
-                type: mongoose.Schema.Types.ObjectId,
-                required: true,
-                refPath: "participants.userModel"
-            },
-            userModel: {
-                type: String,
-                required: true,
-                enum: ["buyer", "confectioner"]
-            }
+        user: {
+            type: String,
+            required: true,
         },
         text: {
             type: String,

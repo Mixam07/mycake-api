@@ -12,16 +12,6 @@ const getBuyers = async (limit: number, skip: number) => {
     return response;
 }
 
-const getBuyerById = async (id: string) => {
-    const buyer = await buyerRepository.getBuyerById(id);
-
-    if (!buyer) {
-        throw new Error("Buyer not found");
-    }
-
-    return await buyer.getPublicData();
-}
-
 const getPhoto = async (id: string) => {
     const buyer = await buyerRepository.getBuyerById(id);;
 
@@ -94,7 +84,6 @@ const deleteBuyer = async (id: string) => {
 
 export default {
     getBuyers,
-    getBuyerById,
     getPhoto,
     registration,
     updateBuyer,
