@@ -11,6 +11,7 @@ const getChats = async (req: Request, res: Response) => {
     }
 }
 
+
 export default {
     getChats
 }
