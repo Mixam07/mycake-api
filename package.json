@@ -1,0 +1,40 @@
+{
+  "name": "cake-shop-backend",
+  "version": "1.0.0",
+  "description": "Архітектура для сайту з тортами на TS + MongoDB",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/main.ts",
+    "mongodb": "/Users/admin/mongodb/bin/mongod.exe --dbpath=/Users/admin/mongodb-data"
+  },
+  "keywords": [
+    "typescript",
+    "express",
+    "mongodb",
+    "clean-architecture"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.8.0",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "libphonenumber-js": "^1.12.26",
+    "mongoose": "^8.19.4",
+    "multer": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
+    "@types/express": "^5.0.5",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/mongoose": "^5.11.97",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^24.10.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}
