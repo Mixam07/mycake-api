@@ -8,13 +8,7 @@ export interface IUser {
     email: string;
     role: UserRole;
     sellerProfile?: ISellerProfile;
-}
-
-export interface IUserCreateData {
-    name: string;
-    email: string;
-    password: string;
-    role: UserRole;
+    avatarUrl?: string;
 }
 
 export interface ISellerProfile {
@@ -38,6 +32,7 @@ interface IUserDocument extends Document {
     passwordHash: string;
     role: UserRole;
     sellerProfile?: ISellerProfile;
+    avatarUrl?: string;
 }
 
 const sellerProfileSchema = new Schema<ISellerProfile>({
@@ -59,6 +54,7 @@ const userSchema = new Schema<IUserDocument>({
     passwordHash: { type: String, required: true },
     role: { type: String, required: true, enum: ['Buyer', 'Seller'] },
     sellerProfile: { type: sellerProfileSchema, required: false },
+    avatarUrl: { type: String },
 }, {
     timestamps: true,
     

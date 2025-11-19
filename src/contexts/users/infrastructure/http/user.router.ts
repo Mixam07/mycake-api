@@ -9,16 +9,21 @@ import { checkAuthToken, checkApiKey } from '../../../../shared/infrastructure/h
 import { UserRole } from '../../domin/user.model';
 import { DeleteUserByIdUseCase } from '../../application/delete-user-by-id.use-case';
 import { UpdateSellerProfileUseCase } from '../../application/update-seller-profile.use-case';
+import { uploadMiddleware } from '../../../../shared/infrastructure/http/file-upload.middleware';
+import { UploadAvatarUseCase } from '../../application/upload-avatar.use-case';
+import { CloudinaryService } from '../../../../shared/infrastructure/storage/cloudinary.service';
 
 const userRouter = Router();
 
 const userRepository = new UserMongoRepository();
+
 const createUserUseCase = new CreateUserUseCase(userRepository);
 const loginUserUseCase = new LoginUserUseCase(userRepository);
 const getUsersUseCase = new GetUsersUseCase(userRepository);
 const getUserByIdUseCase = new GetUserByIdUseCase(userRepository);
 const deleteUserByIdUseCase = new DeleteUserByIdUseCase(userRepository);
 const updateSellerProfileUseCase = new UpdateSellerProfileUseCase(userRepository);
+const uploadAvatarUseCase = new UploadAvatarUseCase(userRepository);
 
 userRouter.post('/register', checkApiKey, async (req: Request, res: Response) => {
     try {
@@ -82,12 +87,33 @@ userRouter.patch('/me/profile', checkAuthToken, async (req: Request, res: Respon
     }
 });
 
+userRouter.post('/me/profile/avatar', checkAuthToken, uploadMiddleware, async (req: Request, res: Response) => {
+    try {
+        if (!req.file || !req.file.buffer) {
+            return res.status(400).json({ message: 'Файл з полем "image" не надано' });
+        }
+
+        if (!req.user) {
+            return res.status(401).json({ message: 'Помилка автентифікації' });
+        }
+
+        const currentUserId = req.user.id;
+
+        const cloudinaryService = new CloudinaryService();
+
+        const updatedUser = await uploadAvatarUseCase.execute(currentUserId, req.file.buffer, cloudinaryService);
+
+        res.status(200).json(updatedUser);
+    } catch (error: any) {
+        res.status(400).json({ message: error.message });
+    }
+});
+
 userRouter.delete('/me', checkAuthToken, async (req: Request, res: Response) => {
     try {
         if (!req.user) {
             return res.status(401).json({ message: 'Помилка автентифікації' });
         }
-        console.log(req.user)
 
         const currentUserId = req.user.id;
 

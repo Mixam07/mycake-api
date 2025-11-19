@@ -1,4 +1,5 @@
-import { IUpdateSellerProfileData, IUser, IUserCreateData, UserRole } from './user.model';
+import { IUserCreateData } from '../infrastructure/persistence/user.mongo.repository';
+import { IUpdateSellerProfileData, IUser, UserRole } from './user.model';
 
 export interface IUserRepository {
     create(data: IUserCreateData): Promise<IUser>;
@@ -8,4 +9,5 @@ export interface IUserRepository {
     validateCredentials(email: string, password: string): Promise<IUser | null>;
     deleteById(id: string): Promise<IUser | null>;
     updateSellerProfile(userId: string, data: IUpdateSellerProfileData): Promise<IUser | null>;
+    updateAvatar(userId: string, avatarUrl: string): Promise<IUser | null>;
 }

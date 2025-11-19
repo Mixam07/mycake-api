@@ -1,7 +1,15 @@
-import { UserModel, IUser, IUserCreateData, UserRole, IUpdateSellerProfileData } from '../../domin/user.model';
+import { UserModel, IUser, UserRole, IUpdateSellerProfileData } from '../../domin/user.model';
 import { IUserRepository } from '../../domin/i-user.repository';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
+import { logger } from '../../../../shared/infrastructure/logging/logger.service';
+
+export interface IUserCreateData {
+    name: string;
+    email: string;
+    password: string;
+    role: UserRole;
+}
 
 export class UserMongoRepository implements IUserRepository {
     async create(data: IUserCreateData): Promise<IUser> {
@@ -54,7 +62,9 @@ export class UserMongoRepository implements IUserRepository {
             
             return user ? (user.toObject() as IUser) : null;
         } catch (error) {
-            console.error(`[UserMongoRepository] Помилка при пошуку findById: ${id}`, error);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+    
+            logger.error(`[UserMongoRepository] Помилка при пошуку findById: ${id}. Деталі: ${errorMessage}`);
             return null;
         }
     }
@@ -69,7 +79,9 @@ export class UserMongoRepository implements IUserRepository {
             
             return deletedUser ? (deletedUser.toObject() as IUser) : null;
         } catch (error) {
-            console.error(`[UserMongoRepository] Помилка при видаленні deleteById: ${id}`, error);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+    
+            logger.error(`[UserMongoRepository] Помилка при видаленні deleteById: ${id}. Деталі: ${errorMessage}`);
             return null;
         }
     }
@@ -110,7 +122,30 @@ export class UserMongoRepository implements IUserRepository {
 
             return updatedUser ? (updatedUser.toObject() as IUser) : null;
         } catch (error) {
-            console.error(`[UserMongoRepository] Помилка при оновленні updateSellerProfile: ${userId}`, error);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+    
+            logger.error(`[UserMongoRepository] Помилка при оновленні updateSellerProfile: ${userId}. Деталі: ${errorMessage}`);
+            return null;
+        }
+    }
+
+    public async updateAvatar(userId: string, avatarUrl: string): Promise<IUser | null> {
+        try {
+            if (!mongoose.Types.ObjectId.isValid(userId)) {
+                return null;
+            }
+
+            const updatedUser = await UserModel.findByIdAndUpdate(
+                userId,
+                { $set: { avatarUrl: avatarUrl } },
+                { new: true }
+            ).exec();
+
+            return updatedUser ? (updatedUser.toObject() as IUser) : null;
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+    
+            logger.error(`[UserMongoRepository] Помилка при оновленні аватара: ${userId}. Деталі: ${errorMessage}`);
             return null;
         }
     }

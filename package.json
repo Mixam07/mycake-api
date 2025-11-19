@@ -25,7 +25,8 @@
     "jsonwebtoken": "^9.0.2",
     "libphonenumber-js": "^1.12.26",
     "mongoose": "^8.19.4",
-    "multer": "^2.0.2"
+    "multer": "^2.0.2",
+    "winston": "^3.18.3"
   },
   "devDependencies": {
     "@types/bcryptjs": "^3.0.0",

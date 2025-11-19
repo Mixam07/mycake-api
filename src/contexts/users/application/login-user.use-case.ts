@@ -1,3 +1,4 @@
+import { logger } from '../../../shared/infrastructure/logging/logger.service';
 import { IUserRepository } from '../domin/i-user.repository';
 import { IUser } from '../domin/user.model';
 import jwt from 'jsonwebtoken';
@@ -27,7 +28,7 @@ export class LoginUserUseCase {
 
         const jwtSecret = process.env.JWT_SECRET;
         if (!jwtSecret) {
-            console.error('JWT_SECRET не встановлено в .env');
+            logger.error('JWT_SECRET не встановлено в .env');
             throw new Error('Помилка конфігурації сервера');
         }
         

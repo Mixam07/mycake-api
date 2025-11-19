@@ -1,47 +1,68 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { Readable } from 'stream';
+import { logger } from '../logging/logger.service';
 
-// Цей клас - наша "інфраструктура" для завантаження
 export class CloudinaryService {
-  constructor() {
-    // Конфігуруємо Cloudinary (він автоматично візьме ключі з process.env)
-    cloudinary.config({
-      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-      api_key: process.env.CLOUDINARY_API_KEY,
-      api_secret: process.env.CLOUDINARY_API_SECRET,
-    });
-  }
-
-  /**
-   * Завантажує буфер файлу (з req.file.buffer) у Cloudinary
-   * @param fileBuffer - Буфер файлу з Multer
-   * @returns Promise, який повертає безпечний URL (https://)
-   */
-  public uploadImage(fileBuffer: Buffer): Promise<string> {
-    return new Promise((resolve, reject) => {
-      // Створюємо стрім для завантаження
-      const uploadStream = cloudinary.uploader.upload_stream(
-        {
-          folder: 'cakes', // Назва папки у вашому Cloudinary
-          resource_type: 'image',
-        },
-        (error, result) => {
-          if (error) {
-            return reject(error);
-          }
-          if (!result) {
-            return reject(new Error('Cloudinary: результат завантаження відсутній.'));
-          }
-          // Повертаємо безпечний URL
-          resolve(result.secure_url);
+    constructor() {
+        cloudinary.config({
+            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+            api_key: process.env.CLOUDINARY_API_KEY,
+            api_secret: process.env.CLOUDINARY_API_SECRET,
+        });
+        
+        if (!process.env.CLOUDINARY_API_KEY) {
+            logger.error("Помилка конфігурації: CLOUDINARY_API_KEY не знайдено!");
         }
-      );
+    }
 
-      // Конвертуємо наш буфер у Readable Stream і "годуємо" ним Cloudinary
-      const bufferStream = new Readable();
-      bufferStream.push(fileBuffer);
-      bufferStream.push(null); // Сигнал про кінець файлу
-      bufferStream.pipe(uploadStream);
-    });
-  }
+    public uploadImage(fileBuffer: Buffer): Promise<string> {
+        return new Promise((resolve, reject) => {
+            const uploadStream = cloudinary.uploader.upload_stream(
+                {
+                    folder: 'users',
+                    resource_type: 'image',
+                },
+                (error, result) => {
+                    if (error) {
+                        return reject(error);
+                    }
+                    if (!result) {
+                        return reject(new Error('Cloudinary: результат завантаження відсутній.'));
+                    }
+                    resolve(result.secure_url);
+                }
+            );
+
+            const bufferStream = new Readable();
+            bufferStream.push(fileBuffer);
+            bufferStream.push(null);
+            bufferStream.pipe(uploadStream);
+        });
+    }
+
+    public deleteImage(publicId: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            cloudinary.uploader.destroy(publicId, (error, result) => {
+                if (error) {
+                    const errorMessage = error instanceof Error ? error.message : String(error);
+    
+                    logger.error(`[Cloudinary] Помилка видалення. Деталі: ${errorMessage}`);
+                    resolve(); 
+                } else {
+                    logger.log(`[Cloudinary] Фото видалено: ${publicId}`);
+                    resolve();
+                }
+            });
+        });
+    }
+
+    public getPublicIdFromUrl(url: string): string | null {
+        try {
+            const regex = /\/upload\/(?:v\d+\/)?(.+)\.[a-z]+$/;
+            const match = url.match(regex);
+            return match ? match[1] : null;
+        } catch (error) {
+            return null;
+        }
+    }
 }

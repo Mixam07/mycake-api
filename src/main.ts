@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { connectDB } from './shared/infrastructure/database/mongo.connection';
 import { apiRouter } from './shared/infrastructure/http/api.router';
+import { logger } from './shared/infrastructure/logging/logger.service';
 
 dotenv.config();
 
@@ -15,5 +16,5 @@ connectDB();
 app.use('/api', apiRouter);
 
 app.listen(PORT, () => {
-    console.log(`[SERVER] Сервер запущено на http://localhost:${PORT}`);
+    logger.log(`[SERVER] Сервер запущено на http://localhost:${PORT}`);
 });
