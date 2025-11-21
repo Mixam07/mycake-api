@@ -114,3 +114,5 @@
 {"level":"info","message":"[DATABASE] Успішно підключено до MongoDB","service":"cake-shop-api","timestamp":"2025-11-19 15:13:55"}
 {"level":"info","message":"[SERVER] Сервер запущено на http://localhost:5000","service":"cake-shop-api","timestamp":"2025-11-19 15:14:25"}
 {"level":"info","message":"[DATABASE] Успішно підключено до MongoDB","service":"cake-shop-api","timestamp":"2025-11-19 15:14:25"}
+{"level":"info","message":"[SERVER] Сервер запущено на http://localhost:5000","service":"cake-shop-api","timestamp":"2025-11-21 21:15:39"}
+{"level":"info","message":"[DATABASE] Успішно підключено до MongoDB","service":"cake-shop-api","timestamp":"2025-11-21 21:15:39"}

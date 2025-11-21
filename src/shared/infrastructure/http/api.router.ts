@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { userRouter } from '../../../contexts/users/infrastructure/http/user.router';
+import { userRouter } from '../../../contexts_/users/infrastructure/http/user.router';
 // import { productRouter } from '../../contexts/2-catalog/infrastructure/http/product.router';
 // import { orderRouter } from '../../contexts/3-orders/infrastructure/http/order.router';
 
