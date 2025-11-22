@@ -14,22 +14,22 @@ import { checkApiKey } from '../../../shared/infrastructure/http/auth.middleware
 
 const router = Router();
 
-const authRepo = new AuthMongoRepository();
-const userRepo = new UserMongoRepository();
+const authRepository = new AuthMongoRepository();
+const userRepository = new UserMongoRepository();
 
 const authService = new AuthService();
 const passwordService = new PasswordStrengthService();
 
 const registerUseCase = new RegisterUseCase(
-    authRepo,
-    userRepo,
+    authRepository,
+    userRepository,
     authService,
     passwordService
 );
 
 const loginUseCase = new LoginUseCase(
-    authRepo,
-    userRepo,
+    authRepository,
+    userRepository,
     authService
 );
 

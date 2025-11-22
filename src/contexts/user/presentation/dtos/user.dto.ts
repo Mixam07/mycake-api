@@ -18,4 +18,8 @@ export class UserResponseDTO {
             sellerProfile: user.sellerProfile
         };
     }
+
+    static fromEntities(users: User[]) {
+        return users.map(user => UserResponseDTO.fromEntity(user));
+    }
 }

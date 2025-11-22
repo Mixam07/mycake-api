@@ -4,9 +4,9 @@ import { IUserRepository } from "../../domain/repositories/i-user.repository";
 export class GetUsersUseCase {
     constructor(private readonly userRepository: IUserRepository) {}
 
-    async execute(role?: UserRole) {
-        const users = await this.userRepository.find(role);
+    async execute(role?: UserRole, page: number = 1, limit: number = 10) {
+        const safeLimit = limit > 100 ? 100 : limit;
 
-        return users;
+        return this.userRepository.find(role, page, safeLimit);
     }
 }
