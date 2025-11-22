@@ -7,7 +7,6 @@ export class UserMapper {
             doc.id.toString(),
             doc.name,
             doc.email,
-            doc.passwordHash,
             doc.role as 'Buyer' | 'Seller',
             doc.avatarUrl,
             doc.sellerProfile
@@ -19,7 +18,6 @@ export class UserMapper {
             _id: user.id,
             name: user.name,
             email: user.email,
-            passwordHash: user.passwordHash,
             role: user.role,
             avatarUrl: user.avatarUrl,
             sellerProfile: user.sellerProfile
