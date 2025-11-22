@@ -31,23 +31,16 @@ declare global {
 }
 
 export const checkAuthToken = (req: Request, res: Response, next: NextFunction) => {
-    const authHeader = req.header('Authorization');
-    
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ message: 'Доступ заборонено: Токен не надано' });
-    }
-
-    const token = authHeader.split(' ')[1];
-    const jwtSecret = process.env.JWT_SECRET;
-
-    if (!jwtSecret) {
-        return res.status(500).json({ message: 'Помилка конфігурації сервера: JWT_SECRET не встановлено' });
+    const token = req.cookies['auth_token']; 
+  
+    if (!token) {
+        return res.status(401).json({ message: 'Неавторизовано' });
     }
 
     try {
-        const payload = jwt.verify(token, jwtSecret) as AuthPayload;
+        const payload = jwt.verify(token, process.env.JWT_SECRET!) as AuthPayload;
         
-        req.user = payload;
+        req.user = payload; 
         
         next();
     } catch (error) {

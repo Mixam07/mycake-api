@@ -11,6 +11,7 @@ import { AuthService } from '../infrastructure/services/auth.service';
 import { PasswordStrengthService } from '../domain/services/password-strength.service';
 
 import { checkApiKey } from '../../../shared/infrastructure/http/auth.middleware';
+import { CookieService } from '../../../shared/infrastructure/http/cookie.service';
 
 const router = Router();
 
@@ -19,6 +20,7 @@ const userRepository = new UserMongoRepository();
 
 const authService = new AuthService();
 const passwordService = new PasswordStrengthService();
+const cookieService = new CookieService();
 
 const registerUseCase = new RegisterUseCase(
     authRepository,
@@ -33,10 +35,10 @@ const loginUseCase = new LoginUseCase(
     authService
 );
 
-const authController = new AuthController(registerUseCase, loginUseCase);
+const authController = new AuthController(registerUseCase, loginUseCase, cookieService);
 
 router.post('/register', checkApiKey, (req, res) => authController.register(req, res));
-
 router.post('/login', checkApiKey, (req, res) => authController.login(req, res));
+router.post('/logout', checkApiKey, (req, res) => authController.logout(req, res));
 
 export { router as authRouter };
