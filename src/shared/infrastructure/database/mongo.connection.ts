@@ -9,7 +9,7 @@ export const connectDB = async () => {
         }
         
         await mongoose.connect(mongoUri);
-        logger.log('[DATABASE] Успішно підключено до MongoDB');
+        //logger.log('[DATABASE] Успішно підключено до MongoDB');
     } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error);
             

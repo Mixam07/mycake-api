@@ -1,11 +1,4 @@
-import { User, UserRole } from '../../domain/entities/user.entity';
-
-export interface CreateUserDto {
-    name: string;
-    email: string;
-    password: string;
-    role: UserRole;
-}
+import { User } from '../../domain/entities/user.entity';
 
 export class UserResponseDTO {
     static fromEntity(user: User) {

@@ -1,4 +1,5 @@
 import { IAuthRepository } from "../../../auth/domain/repositories/i-auth.repository";
+import { User } from "../../domain/entities/user.entity";
 import { IUserRepository } from "../../domain/repositories/i-user.repository";
 
 export class DeleteUserByIdUseCase {
@@ -7,16 +8,16 @@ export class DeleteUserByIdUseCase {
         private readonly authRepository: IAuthRepository
     ) {}
 
-    async execute(id: string) {
-        const userToDelete = await this.userRepository.findById(id);
+    async execute(userId: string): Promise<User | null> {
+        const userToDelete = await this.userRepository.findById(userId);
 
         if (!userToDelete) {
             return null;
         }
 
         await Promise.all([
-            this.userRepository.deleteById(id),
-            this.authRepository.deleteById(id)
+            this.userRepository.deleteById(userId),
+            this.authRepository.deleteById(userId)
         ]);
 
         return userToDelete;

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { UserResponseDTO } from '../dtos/user.dto';
 import { GetUsersUseCase } from '../../application/use-cases/get-users.use-case';
-import { UserRole } from '../../domain/entities/user.entity';
 import { GetUserByIdUseCase } from '../../application/use-cases/get-user-by-id.use-case';
 import { DeleteUserByIdUseCase } from '../../application/use-cases/delete-user-by-id.use-case';
+import { UserRole } from '../../domain/entities/user.type';
 
 export class UserController {
     constructor(

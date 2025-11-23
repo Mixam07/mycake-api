@@ -2,11 +2,13 @@ import { Request, Response } from 'express';
 import { GetUserByIdUseCase } from '../../application/use-cases/get-user-by-id.use-case';
 import { UserResponseDTO } from '../dtos/user.dto';
 import { UpdateSellerProfileUseCase } from '../../application/use-cases/update-seller-profile.use-case';
+import { UploadAvatarUseCase } from '../../application/use-cases/upload-avatar.use-case';
 
 export class MeController {
     constructor(
         private getUserByIdUseCase: GetUserByIdUseCase,
-        private updateSellerProfileUseCase: UpdateSellerProfileUseCase
+        private updateSellerProfileUseCase: UpdateSellerProfileUseCase,
+        private uploadAvatarUseCase: UploadAvatarUseCase,
     ) {}
 
     async getMe(req: Request, res: Response) {
@@ -55,6 +57,28 @@ export class MeController {
             res.status(200).json(response);
         } catch (error: any) {
             res.status(400).json({ message: error.message });
+        }
+    }
+
+    async uploadAvatar(req: Request, res: Response) {
+        try {
+            if (!req.user) return res.status(401).json({ message: 'Неавторизовано' });
+
+            if (!req.file) {
+                return res.status(400).json({ message: 'Файл не надано' });
+            }
+
+            const user = await this.uploadAvatarUseCase.execute(req.user.id, req.file.buffer);
+
+            if (!user) {
+                return res.status(404).json({ message: 'Користувача не знайдено' })
+            }
+
+            const response = UserResponseDTO.fromEntity(user);
+            
+            res.status(200).json(response);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
         }
     }
 }

@@ -21,17 +21,17 @@ export class LoginUseCase {
             throw new Error('Неправильний email або пароль');
         }
 
-        const userProfile = await this.userRepo.findById(credential.id);
-        if (!userProfile) {
+        const user = await this.userRepo.findById(credential.id);
+        if (!user) {
             throw new Error('Профіль користувача не знайдено');
         }
 
-        const token = this.authService.generateToken({ 
-            id: userProfile.id, 
-            email: userProfile.email, 
-            role: userProfile.role 
+        this.authService.generateToken({ 
+            id: user.id, 
+            email: user.email, 
+            role: user.role 
         });
 
-        return { user: userProfile, token };
+        return user;
     }
 }

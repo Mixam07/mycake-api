@@ -1,4 +1,5 @@
-import { ISellerProfile, User, UserRole } from '../entities/user.entity';
+import { User } from '../entities/user.entity';
+import { UserRole } from '../entities/user.type';
 
 export interface PaginatedUsers {
     users: User[];

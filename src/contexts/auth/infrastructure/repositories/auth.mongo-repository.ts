@@ -14,8 +14,8 @@ export class AuthMongoRepository implements IAuthRepository {
         return doc ? AuthMapper.toDomain(doc) : null;
     }
 
-    async deleteById(id: string): Promise<Auth | null> {
-        const doc = await AuthModel.findByIdAndDelete(id).exec();
+    async deleteById(userId: string): Promise<Auth | null> {
+        const doc = await AuthModel.findByIdAndDelete(userId).exec();
         return doc ? AuthMapper.toDomain(doc) : null;
     }
 }

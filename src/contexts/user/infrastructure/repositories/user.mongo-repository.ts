@@ -1,8 +1,8 @@
 import { IUserRepository, PaginatedUsers } from '../../domain/repositories/i-user.repository';
-import { User, UserRole } from '../../domain/entities/user.entity';
+import { User } from '../../domain/entities/user.entity';
 import { UserModel } from '../mongo/user.schema';
 import { UserMapper } from '../mongo/user.mapper';
-import { AuthModel } from '../../../auth/infrastructure/mongo/auth.schema';
+import { UserRole } from '../../domain/entities/user.type';
 
 export class UserMongoRepository implements IUserRepository {
     async save(user: User): Promise<void> {
@@ -30,8 +30,8 @@ export class UserMongoRepository implements IUserRepository {
         };
     }
 
-    async findById(id: string): Promise<User | null> {
-        const doc = await UserModel.findById(id).exec();
+    async findById(userId: string): Promise<User | null> {
+        const doc = await UserModel.findById(userId).exec();
         return doc ? UserMapper.toDomain(doc) : null;
     }
 
@@ -40,8 +40,8 @@ export class UserMongoRepository implements IUserRepository {
         return doc ? UserMapper.toDomain(doc) : null;
     }
 
-    async deleteById(id: string): Promise<User | null> {
-        const doc = await UserModel.findByIdAndDelete(id).exec();
+    async deleteById(userId: string): Promise<User | null> {
+        const doc = await UserModel.findByIdAndDelete(userId).exec();
         return doc ? UserMapper.toDomain(doc) : null;
     }
 }

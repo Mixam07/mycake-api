@@ -1,17 +1,4 @@
-export type UserRole = 'Buyer' | 'Seller';
-
-export interface ISellerProfile {
-    description?: string;
-    address?: string;
-    phone?: string;
-    deliveryInfo?: string;
-    paymentInfo?: string;
-    socialMedia?: {
-        instagram?: string;
-        facebook?: string;
-        youtube?: string;
-    };
-}
+import { ISellerProfile, UserRole } from "./user.type";
 
 export class User {
     constructor(
@@ -34,11 +21,11 @@ export class User {
         this._avatarUrl = url;
     }
 
-    public updateSellerProfile(data: Partial<ISellerProfile>) {
+    public updateSellerProfile(data: ISellerProfile) {
         if (this._role !== 'Seller') {
             throw new Error('Лише продавці мають профіль');
         }
 
-        this._sellerProfile = { ...this._sellerProfile, ...data };
+        this._sellerProfile = { ...this.sellerProfile, ...data  };
     }
 }

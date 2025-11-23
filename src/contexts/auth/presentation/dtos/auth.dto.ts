@@ -1,6 +1,6 @@
-import { UserRole } from '../../../user/domain/entities/user.entity';
+import { UserRole } from "../../../user/domain/entities/user.type";
 
-export interface CreateUserDto {
+export interface CreateAuthDto {
     name: string;
     email: string;
     password: string;

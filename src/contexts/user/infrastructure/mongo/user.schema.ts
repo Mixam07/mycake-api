@@ -1,5 +1,5 @@
 import { Schema, model, Document } from 'mongoose';
-import { ISellerProfile } from '../../domain/entities/user.entity';
+import { ISellerProfile } from '../../domain/entities/user.type';
 
 export interface UserDoc extends Document {
     name: string;

@@ -5,7 +5,7 @@ import { Auth } from '../../domain/entities/auth.entity';
 
 import { AuthService } from '../../infrastructure/services/auth.service';
 import { PasswordStrengthService } from '../../domain/services/password-strength.service';
-import { CreateUserDto } from '../../presentation/dtos/auth.dto';
+import { CreateAuthDto } from '../../presentation/dtos/auth.dto';
 
 import mongoose from 'mongoose';
 
@@ -17,7 +17,7 @@ export class RegisterUseCase {
         private passwordService: PasswordStrengthService
     ) {}
 
-    async execute(dto: CreateUserDto) {
+    async execute(dto: CreateAuthDto) {
         if (!this.passwordService.isStrong(dto.password)) {
             throw new Error('Пароль занадто слабкий (має бути 8+ символів, A-Z, 0-9)');
         }
@@ -34,23 +34,17 @@ export class RegisterUseCase {
         const hashedPassword = await this.authService.hashPassword(dto.password);
 
         const auth = new Auth(sharedId, dto.email, hashedPassword);
-        
-        const userProfile = new User(
-            sharedId,
-            dto.name,
-            dto.email,
-            dto.role
-        );
+        const user = new User(sharedId, dto.name, dto.email, dto.role);
 
         await this.authRepo.save(auth);
-        await this.userRepo.save(userProfile);
+        await this.userRepo.save(user);
 
-        const token = this.authService.generateToken({ 
+        this.authService.generateToken({ 
             id: sharedId,
             email: dto.email,
             role: dto.role
         });
 
-        return { user: userProfile, token };
+        return user;
     }
 }
