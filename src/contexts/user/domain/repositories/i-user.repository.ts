@@ -1,4 +1,4 @@
-import { User, UserRole } from '../entities/user.entity';
+import { ISellerProfile, User, UserRole } from '../entities/user.entity';
 
 export interface PaginatedUsers {
     users: User[];
@@ -8,7 +8,7 @@ export interface PaginatedUsers {
 export interface IUserRepository {
     save(user: User): Promise<void>;
     find(role?: UserRole, page?: number, limit?: number): Promise<PaginatedUsers>;
-    findById(id: string): Promise<User | null>;
+    findById(userId: string): Promise<User | null>;
     findByEmail(email: string): Promise<User | null>;
-    deleteById(id: string): Promise<User | null>;
+    deleteById(useIid: string): Promise<User | null>;
 }

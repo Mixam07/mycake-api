@@ -1,4 +1,4 @@
-import { User } from '../../domain/entities/user.entity';
+import { ISellerProfile, User } from '../../domain/entities/user.entity';
 import { UserDoc } from './user.schema';
 
 export class UserMapper {
@@ -9,7 +9,7 @@ export class UserMapper {
             doc.email,
             doc.role as 'Buyer' | 'Seller',
             doc.avatarUrl,
-            doc.sellerProfile
+            doc.sellerProfile as ISellerProfile
         );
     }
 
