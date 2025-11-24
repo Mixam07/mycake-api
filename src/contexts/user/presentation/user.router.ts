@@ -17,6 +17,7 @@ import { PhoneAccuracyService } from '../domain/services/phone-accuracy.service'
 import { checkApiKey, checkAuthToken } from '../../../shared/infrastructure/http/auth.middleware';
 import { CloudinaryService } from '../../../shared/infrastructure/storage/cloudinary.service';
 import { uploadMiddleware } from '../../../shared/infrastructure/http/file-upload.middleware';
+import { validateUpdateProfile } from './middlewares/validate-profile.middleware';
 
 const router = Router();
 
@@ -37,7 +38,7 @@ const meController = new MeController(getUserByIdUseCase, updateSellerProfileUse
 
 router.get('/', checkApiKey, (req, res) => userController.getUsers(req, res));
 router.get('/me', checkAuthToken, (req, res) => meController.getMe(req, res));
-router.patch('/me/profile', checkAuthToken, (req, res) => meController.updateSellerProfile(req, res));
+router.patch('/me/profile', checkAuthToken, validateUpdateProfile, (req, res) => meController.updateSellerProfile(req, res));
 router.post('/me/profile/avatar', uploadMiddleware, checkAuthToken, (req, res) => meController.uploadAvatar(req, res));
 router.get('/:id', checkAuthToken, (req, res) => userController.getUserById(req, res));
 router.delete('/:id', checkApiKey, (req, res) => userController.deleteUserById(req, res));

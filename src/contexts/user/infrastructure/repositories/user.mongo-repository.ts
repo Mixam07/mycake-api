@@ -44,4 +44,16 @@ export class UserMongoRepository implements IUserRepository {
         const doc = await UserModel.findByIdAndDelete(userId).exec();
         return doc ? UserMapper.toDomain(doc) : null;
     }
+
+    async addPastryId(userId: string, pastryId: string): Promise<void> {
+        await UserModel.findByIdAndUpdate(userId, {
+            $push: { pastries: pastryId }
+        });
+    }
+
+    async removePastryId(userId: string, pastryId: string): Promise<void> {
+        await UserModel.findByIdAndUpdate(userId, {
+            $pull: { pastries: pastryId }
+        });
+    }
 }

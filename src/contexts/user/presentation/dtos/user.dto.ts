@@ -8,7 +8,9 @@ export class UserResponseDTO {
             email: user.email,
             role: user.role,
             avatarUrl: user.avatarUrl,
-            sellerProfile: user.sellerProfile
+            sellerProfile: user.sellerProfile,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
         };
     }
 

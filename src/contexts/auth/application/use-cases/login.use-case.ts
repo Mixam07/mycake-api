@@ -5,13 +5,13 @@ import { LoginDto } from '../../presentation/dtos/auth.dto';
 
 export class LoginUseCase {
     constructor(
-        private authRepo: IAuthRepository,
-        private userRepo: IUserRepository,
-        private authService: AuthService
+        private readonly authRepository: IAuthRepository,
+        private readonly userRepository: IUserRepository,
+        private readonly authService: AuthService
     ) {}
 
     async execute(dto: LoginDto) {
-        const credential = await this.authRepo.findByEmail(dto.email);
+        const credential = await this.authRepository.findByEmail(dto.email);
         if (!credential) {
             throw new Error('Неправильний email або пароль');
         }
@@ -21,17 +21,19 @@ export class LoginUseCase {
             throw new Error('Неправильний email або пароль');
         }
 
-        const user = await this.userRepo.findById(credential.id);
+        const user = await this.userRepository.findById(credential.id);
         if (!user) {
             throw new Error('Профіль користувача не знайдено');
         }
 
-        this.authService.generateToken({ 
+        const token = await this.authService.generateToken({ 
             id: user.id, 
             email: user.email, 
             role: user.role 
         });
 
-        return user;
+        return {
+            user, token
+        };
     }
 }

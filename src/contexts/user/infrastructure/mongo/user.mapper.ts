@@ -4,7 +4,7 @@ import { UserDoc } from './user.schema';
 
 export class UserMapper {
     static toDomain(doc: UserDoc): User {
-        const sellerProfile = this.mapSellerProfile(doc.sellerProfile);
+        const sellerProfile = this.mapSellerProfile(doc);
 
         return new User(
             doc.id.toString(),
@@ -12,7 +12,10 @@ export class UserMapper {
             doc.email,
             doc.role as 'Buyer' | 'Seller',
             doc.avatarUrl,
-            sellerProfile
+            sellerProfile,
+            doc.pastries,
+            doc.createdAt || new Date(),
+            doc.updatedAt || new Date(),
         );
     }
 
@@ -23,7 +26,10 @@ export class UserMapper {
             email: user.email,
             role: user.role,
             avatarUrl: user.avatarUrl,
-            sellerProfile: user.sellerProfile
+            sellerProfile: user.sellerProfile,
+            pastries: user.pastries,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
         };
     }
 

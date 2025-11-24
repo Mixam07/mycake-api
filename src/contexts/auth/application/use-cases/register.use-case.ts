@@ -1,3 +1,5 @@
+import { Types } from 'mongoose';
+
 import { IAuthRepository } from '../../domain/repositories/i-auth.repository';
 import { IUserRepository } from '../../../user/domain/repositories/i-user.repository';
 import { User } from '../../../user/domain/entities/user.entity';
@@ -7,14 +9,12 @@ import { AuthService } from '../../infrastructure/services/auth.service';
 import { PasswordStrengthService } from '../../domain/services/password-strength.service';
 import { CreateAuthDto } from '../../presentation/dtos/auth.dto';
 
-import mongoose from 'mongoose';
-
 export class RegisterUseCase {
     constructor(
-        private authRepo: IAuthRepository,
-        private userRepo: IUserRepository,
-        private authService: AuthService,
-        private passwordService: PasswordStrengthService
+        private readonly authRepo: IAuthRepository,
+        private readonly userRepo: IUserRepository,
+        private readonly authService: AuthService,
+        private readonly passwordService: PasswordStrengthService
     ) {}
 
     async execute(dto: CreateAuthDto) {
@@ -29,22 +29,24 @@ export class RegisterUseCase {
             throw new Error('Користувач з таким email не існує');
         }
 
-        const sharedId = new mongoose.Types.ObjectId().toString();
+        const id = new Types.ObjectId().toString();
 
         const hashedPassword = await this.authService.hashPassword(dto.password);
 
-        const auth = new Auth(sharedId, dto.email, hashedPassword);
-        const user = new User(sharedId, dto.name, dto.email, dto.role);
+        const auth = new Auth(id, dto.email, hashedPassword);
+        const user = new User(id, dto.name, dto.email, dto.role);
 
         await this.authRepo.save(auth);
         await this.userRepo.save(user);
 
-        this.authService.generateToken({ 
-            id: sharedId,
+        const token = await this.authService.generateToken({ 
+            id: id,
             email: dto.email,
             role: dto.role
         });
 
-        return user;
+        return {
+            user, token
+        };
     }
 }

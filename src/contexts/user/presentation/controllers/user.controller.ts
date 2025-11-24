@@ -7,9 +7,9 @@ import { UserRole } from '../../domain/entities/user.type';
 
 export class UserController {
     constructor(
-        private getUsersUseCase: GetUsersUseCase,
-        private getUserByIdUseCase: GetUserByIdUseCase,
-        private deleteUserByIdUseCase: DeleteUserByIdUseCase,
+        private readonly getUsersUseCase: GetUsersUseCase,
+        private readonly getUserByIdUseCase: GetUserByIdUseCase,
+        private readonly deleteUserByIdUseCase: DeleteUserByIdUseCase,
     ) {}
 
     async getUsers(req: Request, res: Response) {

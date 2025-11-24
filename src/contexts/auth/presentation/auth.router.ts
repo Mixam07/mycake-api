@@ -12,6 +12,8 @@ import { PasswordStrengthService } from '../domain/services/password-strength.se
 
 import { checkApiKey } from '../../../shared/infrastructure/http/auth.middleware';
 import { CookieService } from '../../../shared/infrastructure/http/cookie.service';
+import { validateLogin } from './middlewares/validate-login.middleware';
+import { validateRegister } from './middlewares/validate-register.middleware';
 
 const router = Router();
 
@@ -37,8 +39,8 @@ const loginUseCase = new LoginUseCase(
 
 const authController = new AuthController(registerUseCase, loginUseCase, cookieService);
 
-router.post('/register', checkApiKey, (req, res) => authController.register(req, res));
-router.post('/login', checkApiKey, (req, res) => authController.login(req, res));
+router.post('/register', checkApiKey, validateRegister, (req, res) => authController.register(req, res));
+router.post('/login', checkApiKey, validateLogin, (req, res) => authController.login(req, res));
 router.post('/logout', checkApiKey, (req, res) => authController.logout(req, res));
 
 export { router as authRouter };

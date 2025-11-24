@@ -5,7 +5,7 @@ import { IUserRepository } from '../../domain/repositories/i-user.repository';
 export class UploadAvatarUseCase {
     constructor(
         private readonly userRepository: IUserRepository,
-        private cloudinaryService: CloudinaryService
+        private readonly cloudinaryService: CloudinaryService
     ) {}
 
     async execute(userId: string, fileBuffer: Buffer): Promise<User | null> {

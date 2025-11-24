@@ -6,9 +6,9 @@ import { CookieService } from '../../../../shared/infrastructure/http/cookie.ser
 
 export class AuthController {
     constructor(
-        private registerUseCase: RegisterUseCase,
-        private loginUseCase: LoginUseCase,
-        private cookieService: CookieService
+        private readonly registerUseCase: RegisterUseCase,
+        private readonly loginUseCase: LoginUseCase,
+        private readonly cookieService: CookieService
     ) {}
 
     async register(req: Request, res: Response) {

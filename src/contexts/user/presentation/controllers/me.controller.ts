@@ -6,9 +6,9 @@ import { UploadAvatarUseCase } from '../../application/use-cases/upload-avatar.u
 
 export class MeController {
     constructor(
-        private getUserByIdUseCase: GetUserByIdUseCase,
-        private updateSellerProfileUseCase: UpdateSellerProfileUseCase,
-        private uploadAvatarUseCase: UploadAvatarUseCase,
+        private readonly getUserByIdUseCase: GetUserByIdUseCase,
+        private readonly updateSellerProfileUseCase: UpdateSellerProfileUseCase,
+        private readonly uploadAvatarUseCase: UploadAvatarUseCase,
     ) {}
 
     async getMe(req: Request, res: Response) {

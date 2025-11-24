@@ -6,7 +6,7 @@ import { PhoneAccuracyService } from '../../domain/services/phone-accuracy.servi
 export class UpdateSellerProfileUseCase {
     constructor(
         private readonly userRepository: IUserRepository,
-        private phoneService: PhoneAccuracyService
+        private readonly phoneService: PhoneAccuracyService
     ) {}
 
     async execute(userId: string, data: ISellerProfile): Promise<User | null> {
