@@ -5,7 +5,8 @@ export class PastryMapper {
     static toDomain(doc: PastryDoc): Pastry {
         return new Pastry(
             doc._id,
-            doc.category,
+            doc.category?._id,
+            doc.category?.name,
             doc.status,
             doc.images,
             doc.name,
@@ -26,7 +27,7 @@ export class PastryMapper {
     static toPersistence(entity: Pastry): any {
         return {
             _id: entity.id,
-            category: entity.category,
+            categoryId: entity.categoryId,
             status: entity.status,
             images: entity.images,
             name: entity.name,

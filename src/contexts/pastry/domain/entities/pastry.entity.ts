@@ -1,7 +1,8 @@
 export class Pastry {
     constructor(
         private readonly _id: string,
-        private _category: string,
+        private _categoryId: string | undefined,
+        private _categoryName: string | undefined,
         private _status: string,
         private _images: string[],
         private _name: string,
@@ -19,7 +20,8 @@ export class Pastry {
     ) {}
 
     get id(): string { return this._id; }
-    get category(): string { return this._category; }
+    get categoryId(): string | undefined { return this._categoryId; }
+    get categoryName(): string | undefined { return this._categoryName; }
     get status(): string { return this._status; }
     get images(): string[] { return this._images; }
     get name(): string { return this._name; }

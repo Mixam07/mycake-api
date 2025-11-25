@@ -3,7 +3,7 @@ import { IPastryRepository } from '../../domain/repositories/i-pastry.repository
 
 export class GetPastryByIdUseCase {
     constructor(
-        private pastryRepository: IPastryRepository,
+        private readonly pastryRepository: IPastryRepository,
     ) {}
 
     async execute(id: string): Promise<Pastry | null> {

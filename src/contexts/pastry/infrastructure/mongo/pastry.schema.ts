@@ -1,8 +1,15 @@
 import { Schema, model, Document } from 'mongoose';
 
+interface PopulatedCategory {
+    _id: string;
+    name: string;
+    slug: string;
+}
+
 export interface PastryDoc extends Document {
     _id: string;
-    category: string;
+    categoryId: string;
+    category?: PopulatedCategory;
     status: string;
     images: string[];
     name: string;
@@ -21,7 +28,7 @@ export interface PastryDoc extends Document {
 
 const PastrySchema = new Schema<PastryDoc>({
     _id: { type: String, required: true },
-    category: { type: String, required: true },
+    categoryId: { type: String, required: true, ref: 'Category' },
     status: { type: String, required: true },
     images: { type: [String], default: [] },
     name: { type: String, required: true },
@@ -34,6 +41,17 @@ const PastrySchema = new Schema<PastryDoc>({
     minWeight: { type: Number, required: true },
     maxWeight: { type: Number, required: true },
     confectionerId: { type: String, required: true, ref: 'User' }
-}, { timestamps: true });
+}, {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+});
+
+PastrySchema.virtual('category', {
+    ref: 'Category',
+    localField: 'categoryId',
+    foreignField: '_id',
+    justOne: true
+});
 
 export const PastryModel = model<PastryDoc>('Pastry', PastrySchema);

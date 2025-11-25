@@ -1,7 +1,7 @@
 import { Pastry } from "../../domain/entities/pastry.entity";
 
 export interface CreatePastryDto {
-    category: string;
+    categoryId: string;
     status: string;
     images: string[];
     name: string;
@@ -19,7 +19,7 @@ export class PastryResponseDto {
     static fromEntity(pastry: Pastry) {
         return {
             id: pastry.id,
-            category: pastry.category,
+            category: pastry.categoryName, 
             status: pastry.status,
             images: pastry.images,
             name: pastry.name,

@@ -26,3 +26,4 @@
 {"level":"info","message":"[Cloudinary] Фото видалено: users/qybjaj7ssskg8lut1hsu","service":"cake-shop-api","timestamp":"2025-11-23 21:15:13"}
 {"level":"info","message":"[UploadAvatarUseCase] Видаляю старий аватар: users/dquwztqmulurtypfplgc","service":"cake-shop-api","timestamp":"2025-11-23 21:37:16"}
 {"level":"info","message":"[Cloudinary] Фото видалено: users/dquwztqmulurtypfplgc","service":"cake-shop-api","timestamp":"2025-11-23 21:37:17"}
+{"level":"error","message":"[DATABASE] Помилка підключення. Деталі: connect ECONNREFUSED 127.0.0.1:27017, connect ECONNREFUSED ::1:27017","service":"cake-shop-api","timestamp":"2025-11-25 11:20:51"}

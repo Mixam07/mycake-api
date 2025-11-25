@@ -4,12 +4,15 @@ import { GetUsersUseCase } from '../../application/use-cases/get-users.use-case'
 import { GetUserByIdUseCase } from '../../application/use-cases/get-user-by-id.use-case';
 import { DeleteUserByIdUseCase } from '../../application/use-cases/delete-user-by-id.use-case';
 import { UserRole } from '../../domain/entities/user.type';
+import { GetPastryByConfectionerUseCase } from '../../application/use-cases/get-pastry-by-confectioner.use-case';
+import { PastryResponseDto } from '../../../pastry/presentation/dtos/pastry.dto';
 
 export class UserController {
     constructor(
         private readonly getUsersUseCase: GetUsersUseCase,
         private readonly getUserByIdUseCase: GetUserByIdUseCase,
         private readonly deleteUserByIdUseCase: DeleteUserByIdUseCase,
+        private readonly getPastryByConfectionerCase: GetPastryByConfectionerUseCase,
     ) {}
 
     async getUsers(req: Request, res: Response) {
@@ -41,15 +44,29 @@ export class UserController {
 
     async getUserById(req: Request, res: Response) {
         try {
-            const id = req.params.id;
+            const userId = req.params.id;
 
-            const user = await this.getUserByIdUseCase.execute(id);
+            const user = await this.getUserByIdUseCase.execute(userId);
 
             if (!user) {
                 return res.status(404).json({ message: 'Користувача не знайдено' });
             }
 
             const response = UserResponseDTO.fromEntity(user);
+            
+            res.status(200).json(response);
+        } catch (error: any) {
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    async getPastriesByConfectioner(req: Request, res: Response) {
+        try {
+            const confectionerId = req.params.id;
+
+            const pastries = await this.getPastryByConfectionerCase.execute(confectionerId);
+
+            const response = PastryResponseDto.fromEntities(pastries)
             
             res.status(200).json(response);
         } catch (error: any) {

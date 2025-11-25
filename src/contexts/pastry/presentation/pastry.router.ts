@@ -9,16 +9,18 @@ import { validateCreatePastry } from './middlewares/validate-pastry.middleware';
 import { GetPastriesUseCase } from '../application/use-cases/get-pastries.use-case';
 import { GetPastryByIdUseCase } from '../application/use-cases/get-pastry-by-id.use-casse';
 import { DeletePastryByIdUseCase } from '../application/use-cases/delete-pastry-by-id.use-case';
+import { CategoryMongoRepository } from '../../category/infrastructure/repositories/category.mongo-repository';
 
 const router = Router();
 
 const pastryRepository = new PastryMongoRepository();
 const userRepository = new UserMongoRepository();
+const categoryRepository = new CategoryMongoRepository();
 
-const createPastryUseCase = new CreatePastryUseCase(pastryRepository, userRepository);
+const createPastryUseCase = new CreatePastryUseCase(pastryRepository, userRepository, categoryRepository);
 const getPastriesUseCase = new GetPastriesUseCase(pastryRepository);
 const getPastryByIdUseCase = new GetPastryByIdUseCase(pastryRepository);
-const deletePastryByIdUseCase = new DeletePastryByIdUseCase(pastryRepository, userRepository);
+const deletePastryByIdUseCase = new DeletePastryByIdUseCase(pastryRepository, userRepository, categoryRepository);
 
 const pastryController = new PastryController(createPastryUseCase, getPastriesUseCase, getPastryByIdUseCase, deletePastryByIdUseCase);
 

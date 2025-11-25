@@ -28,6 +28,7 @@
     "libphonenumber-js": "^1.12.26",
     "mongoose": "^8.19.4",
     "multer": "^2.0.2",
+    "slugify": "^1.6.6",
     "winston": "^3.18.3"
   },
   "devDependencies": {

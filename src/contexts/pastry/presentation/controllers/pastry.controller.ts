@@ -58,9 +58,15 @@ export class PastryController {
 
             const userId = req.user.id;
 
-            const pastry = await this.createPastryUseCase.execute(req.body, userId);
+            const createdPastry = await this.createPastryUseCase.execute(req.body, userId);
 
-            const response = PastryResponseDto.fromEntity(pastry)
+            const fullPastry = await this.getPastryByIdUseCase.execute(createdPastry.id);
+
+            if (!fullPastry) {
+                return res.status(404).json({ message: 'Помилка при створенні: десерт не знайдено' });
+            }
+
+            const response = PastryResponseDto.fromEntity(fullPastry);
 
             res.status(201).json(response);
         } catch (error: any) {

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { userRouter } from '../../../contexts/user/presentation/user.router';
 import { authRouter } from '../../../contexts/auth/presentation/auth.router';
 import { pastryRouter } from '../../../contexts/pastry/presentation/pastry.router';
+import { categoryRouter } from '../../../contexts/category/presentation/category.router';
 
 const apiRouter = Router();
 
@@ -12,5 +13,6 @@ apiRouter.get('/health', (req, res) => {
 apiRouter.use('/users', userRouter);
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/pastries', pastryRouter);
+apiRouter.use('/categories', categoryRouter);
 
 export { apiRouter };

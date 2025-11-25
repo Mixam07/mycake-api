@@ -2,7 +2,7 @@ import { IPastryRepository, PaginatedPastries } from '../../domain/repositories/
 
 export class GetPastriesUseCase {
     constructor(
-        private pastryRepository: IPastryRepository,
+        private readonly pastryRepository: IPastryRepository,
     ) {}
 
     async execute(page: number = 1, limit: number = 10): Promise<PaginatedPastries> {

@@ -10,10 +10,14 @@ const createPastrySchema = Joi.object({
         'any.required': 'Назва є обов’язковою'
     }),
 
-    category: Joi.string().required().messages({
-        'string.empty': 'Виберіть категорію',
-        'any.required': 'Категорія є обов’язковою'
-    }),
+    categoryId: Joi.string()
+        .pattern(/^[0-9a-fA-F]{24}$/)
+        .required()
+        .messages({
+            'string.pattern.base': 'Некоректний формат ID категорії (має бути 24 символи hex)',
+            'string.empty': 'Виберіть категорію',
+            'any.required': 'Категорія є обов’язковою'
+        }),
 
     status: Joi.string().valid('active', 'draft', 'hidden').default('active').messages({
         'any.only': 'Статус може бути лише: active, draft або hidden'
