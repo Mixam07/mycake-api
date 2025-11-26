@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { CreateCategoryUseCase } from '../application/use-cases/create-category.use-case';
 import { GetCategoriesUseCase } from '../application/use-cases/get-categories.use-case';
 import { GetCategoryByIdUseCase } from '../application/use-cases/get-category-by-id.use-case';
+import { GetPastryByCategoryUseCase } from '../application/use-cases/get-pastry-by-category-id.use-case';
 import { UpdateCategoryUseCase } from '../application/use-cases/update-category.use-case';
 import { DeleteCategoryByIdUseCase } from '../application/use-cases/delete-category-by-id.use-case';
 
@@ -14,9 +15,8 @@ import { PastryMongoRepository } from '../../pastry/infrastructure/repositories/
 
 import { checkApiKey, checkAuthToken } from '../../../shared/infrastructure/http/auth.middleware';
 
-import {  validateCreateCategory } from './middlewares/create-category.middleware';
+import { validateCreateCategory } from './middlewares/create-category.middleware';
 import { validateUpdateCategory } from './middlewares/update-category.middleware';
-import { GetPastryByCategoryUseCase } from '../application/use-cases/get-pastry-by-category-id.use-case';
 
 const router = Router();
 
@@ -40,7 +40,7 @@ router.post('/', checkApiKey, validateCreateCategory, (req, res) => categoryCont
 router.get('/', checkApiKey, (req, res) => categoryController.getCategories(req, res));
 router.get('/:id', checkApiKey, (req, res) => categoryController.getCategoryById(req, res));
 router.get('/:id/pastries', checkApiKey, (req, res) => categoryController.getPastryByCategoryId(req, res));
-router.put('/:id', checkApiKey, validateUpdateCategory, (req, res) => categoryController.updateCategory(req, res));
+router.patch('/:id', checkApiKey, validateUpdateCategory, (req, res) => categoryController.updateCategory(req, res));
 router.delete('/:id', checkApiKey, (req, res) => categoryController.deleteCategoryById(req, res));
 
 export { router as categoryRouter };

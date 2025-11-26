@@ -64,11 +64,15 @@ export class MeController {
         try {
             if (!req.user) return res.status(401).json({ message: 'Неавторизовано' });
 
-            if (!req.file) {
+            const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
+
+            const avatarFile = files?.['image']?.[0];
+
+            if (!avatarFile) {
                 return res.status(400).json({ message: 'Файл не надано' });
             }
 
-            const user = await this.uploadAvatarUseCase.execute(req.user.id, req.file.buffer);
+            const user = await this.uploadAvatarUseCase.execute(req.user.id, avatarFile.buffer);
 
             if (!user) {
                 return res.status(404).json({ message: 'Користувача не знайдено' })

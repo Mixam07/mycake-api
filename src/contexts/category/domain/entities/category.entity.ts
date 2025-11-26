@@ -1,4 +1,4 @@
-import { UpdateCategoryParams } from "./category.type";
+import { UpdateCategoryDto } from "../../presentation/dtos/category.dto";
 
 export class Category {
     constructor(
@@ -17,9 +17,12 @@ export class Category {
     get createdAt(): Date { return this._createdAt; }
     get updatedAt(): Date { return this._updatedAt; }
 
-    public updateCategory(data: UpdateCategoryParams) {
-        this._name = data.name;
-        this._slug = data.slug
+    public updateCategory(dto: UpdateCategoryDto) {
+        Object.entries(dto).forEach(([key, value]) => {
+            if (value !== undefined) {
+                (this as any)[`_${key}`] = value;
+            }
+        });
     }
 
     public addPastryId(pastryId: string) {

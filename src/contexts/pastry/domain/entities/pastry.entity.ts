@@ -1,3 +1,5 @@
+import { UpdatePastryDto } from "../../presentation/dtos/pastry.dto";
+
 export class Pastry {
     constructor(
         private readonly _id: string,
@@ -36,4 +38,16 @@ export class Pastry {
     get confectionerId(): string { return this._confectionerId; }
     get createdAt(): Date { return this._createdAt; }
     get updatedAt(): Date { return this._updatedAt; }
+
+    public updatePastry(dto: UpdatePastryDto) {
+        Object.entries(dto).forEach(([key, value]) => {
+            if (value !== undefined) {
+                (this as any)[`_${key}`] = value;
+            }
+        });
+    }
+
+    public addImages(images: string[]) {
+        this._images = images;
+    }
 }

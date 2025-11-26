@@ -23,7 +23,7 @@ export class UploadAvatarUseCase {
             }
         }
 
-        const avatarUrl = await this.cloudinaryService.uploadImage(fileBuffer);
+        const avatarUrl = await this.cloudinaryService.uploadImage(fileBuffer, 'users');
 
         user.changeAvatar(avatarUrl);
 

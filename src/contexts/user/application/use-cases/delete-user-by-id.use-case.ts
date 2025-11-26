@@ -1,3 +1,4 @@
+import { CloudinaryService } from "../../../../shared/infrastructure/storage/cloudinary.service";
 import { IAuthRepository } from "../../../auth/domain/repositories/i-auth.repository";
 import { User } from "../../domain/entities/user.entity";
 import { IUserRepository } from "../../domain/repositories/i-user.repository";
@@ -5,14 +6,23 @@ import { IUserRepository } from "../../domain/repositories/i-user.repository";
 export class DeleteUserByIdUseCase {
     constructor(
         private readonly userRepository: IUserRepository,
+        private readonly cloudinaryService: CloudinaryService,
         private readonly authRepository: IAuthRepository
     ) {}
 
     async execute(userId: string): Promise<User | null> {
-        const userToDelete = await this.userRepository.findById(userId);
+        const user = await this.userRepository.findById(userId);
 
-        if (!userToDelete) {
+        if (!user) {
             return null;
+        }
+
+        if (user.avatarUrl) {
+            const publicId = this.cloudinaryService.getPublicIdFromUrl(user.avatarUrl);
+            
+            if (publicId) {
+                await this.cloudinaryService.deleteImage(publicId);
+            }
         }
 
         await Promise.all([
@@ -20,6 +30,6 @@ export class DeleteUserByIdUseCase {
             this.authRepository.deleteById(userId)
         ]);
 
-        return userToDelete;
+        return user;
     }
 }

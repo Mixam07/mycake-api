@@ -2,10 +2,12 @@ import { Pastry } from "../../domain/entities/pastry.entity";
 import { IUserRepository } from "../../../user/domain/repositories/i-user.repository";
 import { IPastryRepository } from "../../domain/repositories/i-pastry.repository";
 import { ICategoryRepository } from "../../../category/domain/repositories/i-category.repository";
+import { CloudinaryService } from "../../../../shared/infrastructure/storage/cloudinary.service";
 
 export class DeletePastryByIdUseCase {
     constructor(
         private readonly pastryRepository: IPastryRepository,
+        private readonly cloudinaryService: CloudinaryService,
         private readonly userRepository: IUserRepository,
         private readonly categoryRepository: ICategoryRepository,
     ) {}
@@ -38,6 +40,17 @@ export class DeletePastryByIdUseCase {
             throw new Error('Категорія не знайдена');
         }
 
+        if (pastry.images.length > 0) {
+            const deletePromises = pastry.images.map(async (image) => {
+                const publicId = this.cloudinaryService.getPublicIdFromUrl(image);
+
+                if (publicId) {
+                    await this.cloudinaryService.deleteImage(publicId);
+                }
+            });
+
+            await Promise.all(deletePromises);
+        }
 
         confectioner.removePastryId(pastryId);
         category.removePastryId(pastryId);

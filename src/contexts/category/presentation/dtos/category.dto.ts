@@ -4,6 +4,11 @@ export interface CreateCategoryDto {
     name: string
 }
 
+export interface UpdateCategoryDto {
+    name: string;
+    slug: string;
+}
+
 export class CategoryResponseDTO {
     static fromEntity(category: Category) {
         return {

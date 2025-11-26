@@ -4,12 +4,16 @@ import { PastryResponseDto } from '../dtos/pastry.dto';
 import { GetPastriesUseCase } from '../../application/use-cases/get-pastries.use-case';
 import { GetPastryByIdUseCase } from '../../application/use-cases/get-pastry-by-id.use-casse';
 import { DeletePastryByIdUseCase } from '../../application/use-cases/delete-pastry-by-id.use-case';
+import { UpdatePastryUseCase } from '../../application/use-cases/update-pastry.use-case';
+import { UploadPastryPhotosUseCase } from '../../application/use-cases/upload-pastry-photos.use-case';
 
 export class PastryController {
     constructor(
         private readonly createPastryUseCase: CreatePastryUseCase,
         private readonly getPastriesUseCase: GetPastriesUseCase,
         private readonly getPastryByIdUseCase: GetPastryByIdUseCase,
+        private readonly updatePastryUseCase: UpdatePastryUseCase,
+        private readonly uploadPastryPhotosUseCase: UploadPastryPhotosUseCase,
         private readonly deletePastryByIdUseCase: DeletePastryByIdUseCase
     ) {}
 
@@ -63,7 +67,7 @@ export class PastryController {
             const fullPastry = await this.getPastryByIdUseCase.execute(createdPastry.id);
 
             if (!fullPastry) {
-                return res.status(404).json({ message: 'Помилка при створенні: десерт не знайдено' });
+                return res.status(404).json({ message: 'Десерт не знайдено' });
             }
 
             const response = PastryResponseDto.fromEntity(fullPastry);
@@ -71,6 +75,48 @@ export class PastryController {
             res.status(201).json(response);
         } catch (error: any) {
             res.status(400).json({ message: error.message });
+        }
+    }
+
+    async updatePastry(req: Request, res: Response) {
+        try {
+            const pastry = await this.updatePastryUseCase.execute(req.body, req.params.id);
+
+            if (!pastry) {
+                return res.status(404).json({ message: 'Десерт не знайдено' });
+            }
+
+            const response = PastryResponseDto.fromEntity(pastry);
+
+            res.status(200).json(response);
+        } catch (error: any) {
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    async uploadPhotos(req: Request, res: Response) {
+        try {
+            const files = req.files as { [fieldname: string]: Express.Multer.File[] } | undefined;
+
+            if (!files || Object.keys(files).length === 0) {
+                return res.status(400).json({ message: 'Файли не знайдено' });
+            }
+
+            const images = files['images'] || [];
+
+            const filesBuffers = images.map(file => file.buffer);
+
+            const pastry = await this.uploadPastryPhotosUseCase.execute(req.params.id, filesBuffers);
+
+            if (!pastry) {
+                return res.status(404).json({ message: 'Десерт не знайдено' });
+            }
+
+            const response = PastryResponseDto.fromEntity(pastry);
+
+            res.status(200).json(response)
+        } catch (error: any) {
+            res.status(400).json({ message: error.message })
         }
     }
 
@@ -84,13 +130,13 @@ export class PastryController {
 
             const pastryId = req.params.id;
 
-            const user = await this.deletePastryByIdUseCase.execute(pastryId, userId);
+            const pastry = await this.deletePastryByIdUseCase.execute(pastryId, userId);
 
-            if (!user) {
+            if (!pastry) {
                 return res.status(404).json({ message: 'Десерт не знайдено' });
             }
 
-            const response = PastryResponseDto.fromEntity(user);
+            const response = PastryResponseDto.fromEntity(pastry);
 
             res.status(200).json(response)
         } catch (error: any) {

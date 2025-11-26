@@ -1,17 +1,19 @@
 import { Router } from 'express';
-import { AuthController } from './controllers/auth.controller';
 
 import { RegisterUseCase } from '../application/use-cases/register.use-case';
 import { LoginUseCase } from '../application/use-cases/login.use-case';
 
+import { AuthController } from './controllers/auth.controller';
+
 import { AuthMongoRepository } from '../infrastructure/repositories/auth.mongo-repository';
+import { AuthService } from '../infrastructure/services/auth.service';
 import { UserMongoRepository } from '../../user/infrastructure/repositories/user.mongo-repository';
 
-import { AuthService } from '../infrastructure/services/auth.service';
 import { PasswordStrengthService } from '../domain/services/password-strength.service';
 
 import { checkApiKey } from '../../../shared/infrastructure/http/auth.middleware';
 import { CookieService } from '../../../shared/infrastructure/http/cookie.service';
+
 import { validateLogin } from './middlewares/validate-login.middleware';
 import { validateRegister } from './middlewares/validate-register.middleware';
 

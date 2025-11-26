@@ -15,12 +15,16 @@ export class CloudinaryService {
         }
     }
 
-    public uploadImage(fileBuffer: Buffer): Promise<string> {
+    public uploadImage(fileBuffer: Buffer, folder: string): Promise<string> {
         return new Promise((resolve, reject) => {
             const uploadStream = cloudinary.uploader.upload_stream(
                 {
-                    folder: 'users',
+                    folder: folder,
                     resource_type: 'image',
+                    width: 512,
+                    height: 512,
+                    crop: 'fill',
+                    gravity: 'auto',
                 },
                 (error, result) => {
                     if (error) {

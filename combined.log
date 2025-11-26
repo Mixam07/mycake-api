@@ -27,3 +27,13 @@
 {"level":"info","message":"[UploadAvatarUseCase] Видаляю старий аватар: users/dquwztqmulurtypfplgc","service":"cake-shop-api","timestamp":"2025-11-23 21:37:16"}
 {"level":"info","message":"[Cloudinary] Фото видалено: users/dquwztqmulurtypfplgc","service":"cake-shop-api","timestamp":"2025-11-23 21:37:17"}
 {"level":"error","message":"[DATABASE] Помилка підключення. Деталі: connect ECONNREFUSED 127.0.0.1:27017, connect ECONNREFUSED ::1:27017","service":"cake-shop-api","timestamp":"2025-11-25 11:20:51"}
+{"level":"info","message":"[Cloudinary] Фото видалено: users/vdi8phg3kknzybg0ulcq","service":"cake-shop-api","timestamp":"2025-11-26 12:55:32"}
+{"level":"info","message":"[Cloudinary] Фото видалено: users/c1ngz3hru3kxjvdawsf7","service":"cake-shop-api","timestamp":"2025-11-26 13:02:19"}
+{"level":"info","message":"[Cloudinary] Фото видалено: pastries/iaepp3umf68rgdrwy6pe","service":"cake-shop-api","timestamp":"2025-11-26 13:21:53"}
+{"level":"info","message":"[Cloudinary] Фото видалено: pastries/dnkm41bfef3bzjyodr3c","service":"cake-shop-api","timestamp":"2025-11-26 13:21:53"}
+{"level":"info","message":"[Cloudinary] Фото видалено: pastries/huo7m1jgdgaranxcvhqj","service":"cake-shop-api","timestamp":"2025-11-26 13:22:35"}
+{"level":"info","message":"[Cloudinary] Фото видалено: pastries/gtek3vwfnerayc2ezfeo","service":"cake-shop-api","timestamp":"2025-11-26 13:22:35"}
+{"level":"info","message":"[Cloudinary] Фото видалено: pastries/b1mzvky8oefq8ww4skox","service":"cake-shop-api","timestamp":"2025-11-26 13:24:39"}
+{"level":"info","message":"[Cloudinary] Фото видалено: pastries/tbb3mhnwyjsrifborrpp","service":"cake-shop-api","timestamp":"2025-11-26 13:24:39"}
+{"level":"info","message":"[Cloudinary] Фото видалено: pastries/dckwkttuci6in04lkdjn","service":"cake-shop-api","timestamp":"2025-11-26 13:24:39"}
+{"level":"info","message":"[Cloudinary] Фото видалено: users/vwojzuxxwlejjtdp1qzq","service":"cake-shop-api","timestamp":"2025-11-26 13:26:38"}

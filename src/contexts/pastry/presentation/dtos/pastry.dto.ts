@@ -3,7 +3,20 @@ import { Pastry } from "../../domain/entities/pastry.entity";
 export interface CreatePastryDto {
     categoryId: string;
     status: string;
-    images: string[];
+    name: string;
+    price: number;
+    description: string;
+    tags: string[];
+    weight: number;
+    fillings: string[];
+    additionalServices: string[];
+    minWeight: number;
+    maxWeight: number;
+}
+
+export interface UpdatePastryDto {
+    categoryId: string;
+    status: string;
     name: string;
     price: number;
     description: string;

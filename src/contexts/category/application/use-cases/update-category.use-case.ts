@@ -1,22 +1,22 @@
 import slugify from "slugify";
 import { Category } from "../../domain/entities/category.entity";
-import { UpdateCategoryParams } from "../../domain/entities/category.type";
 import { ICategoryRepository } from "../../domain/repositories/i-category.repository";
+import { UpdateCategoryDto } from "../../presentation/dtos/category.dto";
 
 export class UpdateCategoryUseCase {
     constructor(private readonly categoryRepository: ICategoryRepository) {}
 
-    async execute(categoryId: string, data: UpdateCategoryParams): Promise<Category | null> {
+    async execute(categoryId: string, dto: UpdateCategoryDto): Promise<Category | null> {
         const category = await this.categoryRepository.findById(categoryId);
 
         if (!category) {
             return null
         }
 
-        const slug = slugify(data.name, { lower: true, strict: true });
+        const slug = slugify(dto.name, { lower: true, strict: true });
 
         category.updateCategory({
-            ...data,
+            ...dto,
             slug
         });
 
