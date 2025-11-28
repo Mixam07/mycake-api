@@ -13,7 +13,7 @@ const loginSchema = Joi.object({
         'string.base': 'Пароль має бути рядком',
         'string.empty': 'Пароль не може бути порожнім',
         'string.min': 'Пароль має містити не менше 6 символів',
-        'any.required': 'Пароль є обов’язковим полем'
+        'any.required': 'Пароль (password) є обов’язковим полем'
     })
 });
 

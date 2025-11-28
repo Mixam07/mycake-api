@@ -1,15 +1,9 @@
 import { Schema, model, Document } from 'mongoose';
-
-interface PopulatedCategory {
-    _id: string;
-    name: string;
-    slug: string;
-}
+import { Category } from '../../../category/domain/entities/category.entity';
+import { User } from '../../../user/domain/entities/user.entity';
 
 export interface PastryDoc extends Document {
     _id: string;
-    categoryId: string;
-    category?: PopulatedCategory;
     status: string;
     images: string[];
     name: string;
@@ -21,14 +15,16 @@ export interface PastryDoc extends Document {
     additionalServices: string[];
     minWeight: number;
     maxWeight: number;
+    categoryId: string;
     confectionerId: string;
+    category: Category | null;
+    confectioner: User | null;
     createdAt: Date;
     updatedAt: Date;
 }
 
 const PastrySchema = new Schema<PastryDoc>({
     _id: { type: String, required: true },
-    categoryId: { type: String, required: true, ref: 'Category' },
     status: { type: String, required: true },
     images: { type: [String], default: [] },
     name: { type: String, required: true },
@@ -40,6 +36,7 @@ const PastrySchema = new Schema<PastryDoc>({
     additionalServices: { type: [String], default: [] },
     minWeight: { type: Number, required: true },
     maxWeight: { type: Number, required: true },
+    categoryId: { type: String, required: true, ref: 'Category' },
     confectionerId: { type: String, required: true, ref: 'User' }
 }, {
     timestamps: true,
@@ -50,6 +47,13 @@ const PastrySchema = new Schema<PastryDoc>({
 PastrySchema.virtual('category', {
     ref: 'Category',
     localField: 'categoryId',
+    foreignField: '_id',
+    justOne: true
+});
+
+PastrySchema.virtual('confectioner', {
+    ref: 'User',
+    localField: 'confectionerId',
     foreignField: '_id',
     justOne: true
 });

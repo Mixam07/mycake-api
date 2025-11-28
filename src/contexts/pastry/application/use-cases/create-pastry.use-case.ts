@@ -30,10 +30,8 @@ export class CreatePastryUseCase {
 
         const pastry = new Pastry(
             pastryId,
-            category.id,
-            "",
             dto.status,
-            dto.images,
+            [],
             dto.name,
             dto.price,
             dto.description,
@@ -43,7 +41,10 @@ export class CreatePastryUseCase {
             dto.additionalServices,
             dto.minWeight,
             dto.maxWeight,
-            confectioner.id
+            category.id,
+            confectioner.id,
+            null,
+            null
         );
 
         confectioner.addPastryId(pastryId);

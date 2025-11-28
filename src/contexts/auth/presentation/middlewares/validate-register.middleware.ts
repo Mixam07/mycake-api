@@ -7,7 +7,7 @@ const registerSchema = Joi.object({
         'string.empty': 'Ім’я не може бути порожнім',
         'string.min': 'Ім’я має містити не менше 2 символів',
         'string.max': 'Ім’я занадто довге',
-        'any.required': 'Ім’я є обов’язковим полем'
+        'any.required': 'Ім’я (name) є обов’язковим полем'
     }),
 
     email: Joi.string().email().required().messages({
@@ -21,12 +21,12 @@ const registerSchema = Joi.object({
         'string.base': 'Пароль має бути рядком',
         'string.empty': 'Пароль не може бути порожнім',
         'string.min': 'Пароль має містити не менше 6 символів',
-        'any.required': 'Пароль є обов’язковим полем'
+        'any.required': 'Пароль (password) є обов’язковим полем'
     }),
 
     role: Joi.string().valid('Buyer', 'Seller').required().messages({
         'any.only': 'Роль може бути лише Buyer або Seller',
-        'any.required': 'Роль є обов’язковою'
+        'any.required': 'Роль (role) є обов’язковою'
     })
 });
 

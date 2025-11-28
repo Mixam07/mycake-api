@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { CreateCategoryUseCase } from '../application/use-cases/create-category.use-case';
 import { GetCategoriesUseCase } from '../application/use-cases/get-categories.use-case';
 import { GetCategoryByIdUseCase } from '../application/use-cases/get-category-by-id.use-case';
-import { GetPastryByCategoryUseCase } from '../application/use-cases/get-pastry-by-category-id.use-case';
+import { GetPastryByCategoryIdUseCase } from '../application/use-cases/get-pastry-by-category-id.use-case';
 import { UpdateCategoryUseCase } from '../application/use-cases/update-category.use-case';
 import { DeleteCategoryByIdUseCase } from '../application/use-cases/delete-category-by-id.use-case';
 
@@ -27,13 +27,13 @@ const userRepository = new UserMongoRepository();
 const createCategoryUseCase = new CreateCategoryUseCase(categoryRepository);
 const getCategoryByIdUseCase = new GetCategoryByIdUseCase(categoryRepository);
 const getCategoriesUseCase = new GetCategoriesUseCase(categoryRepository);
-const getPastryByCategoryUseCase = new GetPastryByCategoryUseCase(pastryRepository);
+const getPastryByCategoryIdUseCase = new GetPastryByCategoryIdUseCase(pastryRepository);
 const updateCategoryUseCase = new UpdateCategoryUseCase(categoryRepository);
 const deleteCategoryByIdUseCase = new DeleteCategoryByIdUseCase(categoryRepository, pastryRepository, userRepository);
 
 const categoryController = new CategoryController(
     createCategoryUseCase, getCategoryByIdUseCase, getCategoriesUseCase,
-    getPastryByCategoryUseCase, updateCategoryUseCase, deleteCategoryByIdUseCase,
+    getPastryByCategoryIdUseCase, updateCategoryUseCase, deleteCategoryByIdUseCase,
 );
 
 router.post('/', checkApiKey, validateCreateCategory, (req, res) => categoryController.createCategory(req, res));

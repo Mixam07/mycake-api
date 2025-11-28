@@ -1,7 +1,7 @@
 import { Pastry } from "../../../pastry/domain/entities/pastry.entity";
 import { IPastryRepository } from "../../../pastry/domain/repositories/i-pastry.repository";
 
-export class GetPastryByCategoryUseCase {
+export class GetPastryByCategoryIdUseCase {
     constructor(
         private readonly pastryRepository: IPastryRepository,
     ) {}

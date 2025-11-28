@@ -32,7 +32,6 @@ export class PastryResponseDto {
     static fromEntity(pastry: Pastry) {
         return {
             id: pastry.id,
-            category: pastry.categoryName, 
             status: pastry.status,
             images: pastry.images,
             name: pastry.name,
@@ -44,7 +43,8 @@ export class PastryResponseDto {
             additionalServices: pastry.additionalServices,
             minWeight: pastry.minWeight,
             maxWeight: pastry.maxWeight,
-            confectionerId: pastry.confectionerId,
+            category: pastry.categoryName,
+            confectioner: pastry.confectionerName,
             createdAt: pastry.createdAt,
             updatedAt: pastry.updatedAt,
         };

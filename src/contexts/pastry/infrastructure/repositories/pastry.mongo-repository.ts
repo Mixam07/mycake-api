@@ -15,6 +15,7 @@ export class PastryMongoRepository implements IPastryRepository {
         const [docs, total] = await Promise.all([
             PastryModel.find()
                 .populate('category')
+                .populate('confectioner')
                 .skip(skip)
                 .limit(limit)
                 .exec(),
@@ -30,6 +31,7 @@ export class PastryMongoRepository implements IPastryRepository {
     async findById(pastryId: string): Promise<Pastry | null> {
         const doc = await PastryModel.findById(pastryId)
             .populate('category')
+            .populate('confectioner')
             .exec();
         return doc ? PastryMapper.toDomain(doc) : null;
     }
@@ -37,6 +39,7 @@ export class PastryMongoRepository implements IPastryRepository {
     async findByConfectionerId(confectionerId: string): Promise<Pastry[]> {
         const docs = await PastryModel.find({ confectionerId: confectionerId })
             .populate('category')
+            .populate('confectioner')
             .exec();
         return docs.map(doc => PastryMapper.toDomain(doc));
     }
@@ -44,6 +47,7 @@ export class PastryMongoRepository implements IPastryRepository {
     async findByCategoryId(categoryId: string): Promise<Pastry[]> {
         const docs = await PastryModel.find({ categoryId: categoryId })
             .populate('category')
+            .populate('confectioner')
             .exec();
         return docs.map(doc => PastryMapper.toDomain(doc));
     }
@@ -51,6 +55,7 @@ export class PastryMongoRepository implements IPastryRepository {
     async deleteById(userId: string): Promise<Pastry | null> {
         const doc = await PastryModel.findByIdAndDelete(userId)
             .populate('category')
+            .populate('confectioner')
             .exec();
         return doc ? PastryMapper.toDomain(doc) : null;
     }

@@ -80,6 +80,10 @@ export class PastryController {
 
     async updatePastry(req: Request, res: Response) {
         try {
+            if (!req.body) {
+                return res.status(400).json({ message: 'Додайте якусь інформацію для зміни' })
+            }
+            
             const pastry = await this.updatePastryUseCase.execute(req.body, req.params.id);
 
             if (!pastry) {

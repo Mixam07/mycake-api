@@ -35,6 +35,10 @@ export class MeController {
 
     async updateSellerProfile(req: Request, res: Response) {
         try {
+            if (!req.body) {
+                return res.status(400).json({ message: 'Додайте якусь інформацію для зміни' })
+            }
+            
             const id = req.user?.id;
             const role = req.user?.role;
 

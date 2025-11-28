@@ -1,5 +1,4 @@
 import { Category } from '../../domain/entities/category.entity';
-import { ISellerProfile } from '../../domain/entities/category.type';
 import { CategoryDoc } from './category.schema';
 
 export class CategoryMapper {

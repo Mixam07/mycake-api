@@ -5,15 +5,15 @@ import { GetCategoryByIdUseCase } from '../../application/use-cases/get-category
 import { GetCategoriesUseCase } from '../../application/use-cases/get-categories.use-case';
 import { DeleteCategoryByIdUseCase } from '../../application/use-cases/delete-category-by-id.use-case';
 import { UpdateCategoryUseCase } from '../../application/use-cases/update-category.use-case';
-import { GetPastryByCategoryUseCase } from '../../application/use-cases/get-pastry-by-category-id.use-case';
 import { PastryResponseDto } from '../../../pastry/presentation/dtos/pastry.dto';
+import { GetPastryByCategoryIdUseCase } from '../../application/use-cases/get-pastry-by-category-id.use-case';
 
 export class CategoryController {
     constructor(
         private readonly createCategoryUseCase: CreateCategoryUseCase,
         private readonly getCategoryByIdUseCase: GetCategoryByIdUseCase,
         private readonly getCategoriesUseCase: GetCategoriesUseCase,
-        private readonly getPastryByCategoryUseCase: GetPastryByCategoryUseCase,
+        private readonly getPastryByCategoryUseCase: GetPastryByCategoryIdUseCase,
         private readonly updateCategoryUseCase: UpdateCategoryUseCase,
         private readonly deleteCategoryByIdUseCase: DeleteCategoryByIdUseCase,
     ) {}
@@ -85,6 +85,10 @@ export class CategoryController {
 
     async updateCategory(req: Request, res: Response) {
         try {
+            if (!req.body) {
+                return res.status(400).json({ message: 'Додайте якусь інформацію для зміни' })
+            }
+
             const category = await this.updateCategoryUseCase.execute(req.params.id, req.body);
 
             if (!category) {
