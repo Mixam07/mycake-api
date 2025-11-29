@@ -15,7 +15,7 @@ export class PastryMongoRepository implements IPastryRepository {
         const [docs, total] = await Promise.all([
             PastryModel.find()
                 .populate('category')
-                .populate('confectioner')
+                .populate('seller')
                 .skip(skip)
                 .limit(limit)
                 .exec(),
@@ -31,15 +31,15 @@ export class PastryMongoRepository implements IPastryRepository {
     async findById(pastryId: string): Promise<Pastry | null> {
         const doc = await PastryModel.findById(pastryId)
             .populate('category')
-            .populate('confectioner')
+            .populate('seller')
             .exec();
         return doc ? PastryMapper.toDomain(doc) : null;
     }
 
-    async findByConfectionerId(confectionerId: string): Promise<Pastry[]> {
-        const docs = await PastryModel.find({ confectionerId: confectionerId })
+    async findBySellerId(sellerId: string): Promise<Pastry[]> {
+        const docs = await PastryModel.find({ sellerId: sellerId })
             .populate('category')
-            .populate('confectioner')
+            .populate('seller')
             .exec();
         return docs.map(doc => PastryMapper.toDomain(doc));
     }
@@ -47,7 +47,7 @@ export class PastryMongoRepository implements IPastryRepository {
     async findByCategoryId(categoryId: string): Promise<Pastry[]> {
         const docs = await PastryModel.find({ categoryId: categoryId })
             .populate('category')
-            .populate('confectioner')
+            .populate('seller')
             .exec();
         return docs.map(doc => PastryMapper.toDomain(doc));
     }
@@ -55,7 +55,7 @@ export class PastryMongoRepository implements IPastryRepository {
     async deleteById(userId: string): Promise<Pastry | null> {
         const doc = await PastryModel.findByIdAndDelete(userId)
             .populate('category')
-            .populate('confectioner')
+            .populate('seller')
             .exec();
         return doc ? PastryMapper.toDomain(doc) : null;
     }

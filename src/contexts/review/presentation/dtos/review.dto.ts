@@ -20,7 +20,7 @@ export class ReviewResponseDTO {
             rating: review.rating,
             user: review.userName,
             pastry: review.pastryName,
-            confectioner: review.confectionerName,
+            seller: review.sellerName,
             createdAt: review.createdAt,
             updatedAt: review.updatedAt,
         };

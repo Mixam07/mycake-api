@@ -13,8 +13,8 @@ export class ReviewMapper {
             ? PastryMapper.toDomain(doc.pastry as any)
             : null;
 
-        const confectionerEntity = (doc.confectioner && typeof doc.confectioner === 'object' && '_id' in doc.confectioner)
-            ? UserMapper.toDomain(doc.confectioner as any)
+        const sellerEntity = (doc.seller && typeof doc.seller === 'object' && '_id' in doc.seller)
+            ? UserMapper.toDomain(doc.seller as any)
             : null;
 
         return new Review(
@@ -23,10 +23,10 @@ export class ReviewMapper {
             doc.rating,
             doc.userId,
             doc.pastryId,
-            doc.confectionerId,
+            doc.sellerId,
             userEntity,
             pastryEntity,
-            confectionerEntity,
+            sellerEntity,
             doc.createdAt,
             doc.updatedAt
         );
@@ -39,7 +39,7 @@ export class ReviewMapper {
             rating: review.rating,
             userId: review.userId,
             pastryId: review.pastryId,
-            confectionerId: review.confectionerId,
+            sellerId: review.sellerId,
             createdAt: review.createdAt,
             updatedAt: review.updatedAt,
         };

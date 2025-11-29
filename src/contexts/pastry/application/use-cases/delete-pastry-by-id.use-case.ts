@@ -19,14 +19,14 @@ export class DeletePastryByIdUseCase {
             return null;
         }
 
-        if (pastry.confectionerId !== userId) {
+        if (pastry.sellerId !== userId) {
             throw new Error('Ви не маєте прав на видалення цього десерту');
         }
 
-        const confectionerId = pastry.confectionerId;
-        const confectioner = await this.userRepository.findById(confectionerId);
+        const sellerId = pastry.sellerId;
+        const seller = await this.userRepository.findById(sellerId);
 
-        if (!confectioner) {
+        if (!seller) {
             throw new Error('Продавець не знайдений');
         }
 
@@ -52,11 +52,11 @@ export class DeletePastryByIdUseCase {
             await Promise.all(deletePromises);
         }
 
-        confectioner.removePastryId(pastryId);
+        seller.removePastryId(pastryId);
         category.removePastryId(pastryId);
 
         this.pastryRepository.deleteById(pastryId);
-        this.userRepository.save(confectioner);
+        this.userRepository.save(seller);
         this.categoryRepository.save(category);
 
         return pastry;

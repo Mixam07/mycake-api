@@ -7,10 +7,12 @@ export interface UserDoc extends Document {
     role: string;
     avatarUrl?: string;
     sellerProfile?: ISellerProfile;
-    pastries: string[];
+    pastryIds: string[];
+    reviewIds: string[];
     createdAt: Date;
     updatedAt: Date;
 }
+
 const sellerProfileSchema = new Schema<ISellerProfile>({
     description: { type: String },
     address: { type: String },
@@ -30,7 +32,8 @@ const UserSchema = new Schema<UserDoc>({
     role: { type: String, required: true, enum: ['Buyer', 'Seller'] },
     avatarUrl: { type: String },
     sellerProfile: { type: sellerProfileSchema, required: false },
-    pastries: [{ type: String, ref: 'Pastry', default: [] }]
+    pastryIds: [{ type: String, required: true, ref: 'Pastry', }],
+    reviewIds: { type: [String], required: true, ref: 'Review' },
 }, { timestamps: true });
 
 export const UserModel = model<UserDoc>('User', UserSchema);

@@ -13,7 +13,8 @@ export class UserMapper {
             doc.role as 'Buyer' | 'Seller',
             doc.avatarUrl,
             sellerProfile,
-            doc.pastries,
+            doc.pastryIds,
+            doc.reviewIds,
             doc.createdAt || new Date(),
             doc.updatedAt || new Date(),
         );
@@ -27,7 +28,8 @@ export class UserMapper {
             role: user.role,
             avatarUrl: user.avatarUrl,
             sellerProfile: user.sellerProfile,
-            pastries: user.pastries,
+            pastryIds: user.pastryIds,
+            reviewIds: user.reviewIds,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt,
         };

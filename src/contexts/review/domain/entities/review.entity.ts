@@ -9,10 +9,10 @@ export class Review {
         private _rating: number,
         private readonly _userId: string,
         private readonly _pastryId: string,
-        private readonly _confectionerId: string,
-        private readonly _user: User | null,
-        private readonly _pastry: Pastry | null,
-        private readonly _confectioner: User | null,
+        private readonly _sellerId: string,
+        private readonly _user: User | null = null,
+        private readonly _pastry: Pastry | null = null,
+        private readonly _seller: User | null = null,
         private readonly _createdAt: Date = new Date(),
         private readonly _updatedAt: Date = new Date(),
     ) {}
@@ -22,10 +22,10 @@ export class Review {
     get rating(): number { return this._rating; }
     get userId(): string { return this._userId; }
     get pastryId(): string { return this._pastryId; }
-    get confectionerId(): string { return this._confectionerId; }
+    get sellerId(): string { return this._sellerId; }
     get userName(): string | null { return this._user?.name || null; }
     get pastryName(): string | null { return this._pastry?.name || null; }
-    get confectionerName(): string | null { return this._confectioner?.name || null }
+    get sellerName(): string | null { return this._seller?.name || null }
     get createdAt(): Date { return this._createdAt; }
     get updatedAt(): Date { return this._updatedAt; }
 

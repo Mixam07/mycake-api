@@ -7,8 +7,8 @@ export interface ReviewDoc extends Document {
     text: string;
     userId: string;
     user: User;
-    confectionerId: string;
-    confectioner: User;
+    sellerId: string;
+    seller: User;
     pastryId: string;
     pastry: Pastry;
     createdAt: Date;
@@ -20,14 +20,14 @@ const ReviewSchema = new Schema<ReviewDoc>({
     text: { type: String, required: true },
     userId: { type: String, required: true, ref: 'User' },
     pastryId: { type: String, required: true, ref: 'Pastry' },
-    confectionerId: { type: String, required: true, ref: 'User' },
+    sellerId: { type: String, required: true, ref: 'User' },
 }, {
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true }
 });
 
-ReviewSchema.index({ confectionerId: 1 });
+ReviewSchema.index({ sellerId: 1 });
 
 ReviewSchema.virtual('user', {
     ref: 'User',
@@ -43,9 +43,9 @@ ReviewSchema.virtual('pastry', {
     justOne: true
 });
 
-ReviewSchema.virtual('confectioner', {
+ReviewSchema.virtual('seller', {
     ref: 'User',
-    localField: 'confectionerId',
+    localField: 'sellerId',
     foreignField: '_id',
     justOne: true
 });

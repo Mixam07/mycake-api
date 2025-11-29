@@ -44,7 +44,7 @@ export class PastryResponseDto {
             minWeight: pastry.minWeight,
             maxWeight: pastry.maxWeight,
             category: pastry.categoryName,
-            confectioner: pastry.confectionerName,
+            seller: pastry.sellerName,
             createdAt: pastry.createdAt,
             updatedAt: pastry.updatedAt,
         };

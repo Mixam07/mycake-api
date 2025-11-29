@@ -15,10 +15,11 @@ export interface PastryDoc extends Document {
     additionalServices: string[];
     minWeight: number;
     maxWeight: number;
+    reviewIds: string[];
     categoryId: string;
-    confectionerId: string;
+    sellerId: string;
     category: Category | null;
-    confectioner: User | null;
+    seller: User | null;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -36,8 +37,9 @@ const PastrySchema = new Schema<PastryDoc>({
     additionalServices: { type: [String], default: [] },
     minWeight: { type: Number, required: true },
     maxWeight: { type: Number, required: true },
+    reviewIds: { type: [String], required: true, ref: 'Review' },
     categoryId: { type: String, required: true, ref: 'Category' },
-    confectionerId: { type: String, required: true, ref: 'User' }
+    sellerId: { type: String, required: true, ref: 'User' }
 }, {
     timestamps: true,
     toJSON: { virtuals: true },
@@ -51,9 +53,9 @@ PastrySchema.virtual('category', {
     justOne: true
 });
 
-PastrySchema.virtual('confectioner', {
+PastrySchema.virtual('seller', {
     ref: 'User',
-    localField: 'confectionerId',
+    localField: 'sellerId',
     foreignField: '_id',
     justOne: true
 });

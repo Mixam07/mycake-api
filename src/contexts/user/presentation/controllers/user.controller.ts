@@ -4,7 +4,7 @@ import { GetUsersUseCase } from '../../application/use-cases/get-users.use-case'
 import { GetUserByIdUseCase } from '../../application/use-cases/get-user-by-id.use-case';
 import { DeleteUserByIdUseCase } from '../../application/use-cases/delete-user-by-id.use-case';
 import { UserRole } from '../../domain/entities/user.type';
-import { GetPastryByConfectionerUseCase } from '../../application/use-cases/get-pastry-by-confectioner.use-case';
+import { GetPastryBySellerIdUseCase } from '../../application/use-cases/get-pastry-by-seller-id.use-case';
 import { PastryResponseDto } from '../../../pastry/presentation/dtos/pastry.dto';
 
 export class UserController {
@@ -12,7 +12,7 @@ export class UserController {
         private readonly getUsersUseCase: GetUsersUseCase,
         private readonly getUserByIdUseCase: GetUserByIdUseCase,
         private readonly deleteUserByIdUseCase: DeleteUserByIdUseCase,
-        private readonly getPastryByConfectionerCase: GetPastryByConfectionerUseCase,
+        private readonly getPastryBySellerIdUseCase: GetPastryBySellerIdUseCase,
     ) {}
 
     async getUsers(req: Request, res: Response) {
@@ -60,11 +60,11 @@ export class UserController {
         }
     }
 
-    async getPastriesByConfectioner(req: Request, res: Response) {
+    async getPastriesByseller(req: Request, res: Response) {
         try {
-            const confectionerId = req.params.id;
+            const sellerId = req.params.id;
 
-            const pastries = await this.getPastryByConfectionerCase.execute(confectionerId);
+            const pastries = await this.getPastryBySellerIdUseCase.execute(sellerId);
 
             const response = PastryResponseDto.fromEntities(pastries)
             

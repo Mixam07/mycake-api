@@ -24,17 +24,17 @@ export class DeleteCategoryByIdUseCase {
                 throw new Error('Десерт не знайдено');
             }
 
-            const confectioner = await this.userRepository.findById(pastry.confectionerId);
+            const seller = await this.userRepository.findById(pastry.sellerId);
 
-            if (!confectioner) {
+            if (!seller) {
                 throw new Error('Користувача не знайдено');
             }
 
-            confectioner.removePastryId(pastry.id);
+            seller.removePastryId(pastry.id);
 
             Promise.all([
                 this.pastryRepository.deleteById(pastry.id),
-                this.userRepository.save(confectioner)
+                this.userRepository.save(seller)
             ])
         }
 

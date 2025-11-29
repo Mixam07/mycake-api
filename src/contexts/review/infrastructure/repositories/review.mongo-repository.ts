@@ -16,7 +16,7 @@ export class ReviewMongoRepository implements IReviewRepository {
             ReviewModel.find()
                 .skip(skip)
                 .limit(limit)
-                .populate('confectioner')
+                .populate('seller')
                 .populate('pastry')
                 .populate('user')
                 .exec(),
@@ -31,21 +31,21 @@ export class ReviewMongoRepository implements IReviewRepository {
 
     async findById(reviewId: string): Promise<Review | null> {
         const doc = await ReviewModel.findById(reviewId)
-            .populate('confectioner')
+            .populate('seller')
             .populate('pastry')
             .populate('user')
             .exec();
         return doc ? ReviewMapper.toDomain(doc) : null;
     }
 
-    async findByConfectionerId(confectionerId: string, page: number = 1, limit: number = 10): Promise<PaginatedReviews> {
+    async findBySellerId(sellerId: string, page: number = 1, limit: number = 10): Promise<PaginatedReviews> {
         const skip = (page - 1) * limit;
 
         const [docs, total] = await Promise.all([
-            ReviewModel.find({ confectionerId: confectionerId })
+            ReviewModel.find({ sellerId: sellerId })
                 .skip(skip)
                 .limit(limit)
-                .populate('confectioner')
+                .populate('seller')
                 .populate('pastry')
                 .populate('user')
                 .exec(),
@@ -65,7 +65,7 @@ export class ReviewMongoRepository implements IReviewRepository {
             ReviewModel.find({ pastryId: pastryId })
                 .skip(skip)
                 .limit(limit)
-                .populate('confectioner')
+                .populate('seller')
                 .populate('pastry')
                 .populate('user')
                 .exec(),
@@ -80,7 +80,7 @@ export class ReviewMongoRepository implements IReviewRepository {
 
     async deleteById(reviewId: string): Promise<Review | null> {
         const doc = await ReviewModel.findByIdAndDelete(reviewId)
-            .populate('confectioner')
+            .populate('seller')
             .populate('pastry')
             .populate('user')
             .exec();

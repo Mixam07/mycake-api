@@ -3,7 +3,7 @@ import { Router } from 'express';
 import { DeleteUserByIdUseCase } from '../application/use-cases/delete-user-by-id.use-case';
 import { GetUserByIdUseCase } from '../application/use-cases/get-user-by-id.use-case';
 import { GetUsersUseCase } from '../application/use-cases/get-users.use-case';
-import { GetPastryByConfectionerUseCase } from '../application/use-cases/get-pastry-by-confectioner.use-case';
+import { GetPastryBySellerIdUseCase } from '../application/use-cases/get-pastry-by-seller-id.use-case';
 import { UpdateSellerProfileUseCase } from '../application/use-cases/update-seller-profile.use-case';
 import { UploadAvatarUseCase } from '../application/use-cases/upload-avatar.use-case';
 
@@ -33,12 +33,12 @@ const cloudinaryService = new CloudinaryService();
 
 const getUsersUseCase = new GetUsersUseCase(userRepository);
 const getUserByIdUseCase = new GetUserByIdUseCase(userRepository);
-const getPastryByConfectionerCase = new GetPastryByConfectionerUseCase(pastryRepository);
+const getPastryBySellerIdUseCase = new GetPastryBySellerIdUseCase(pastryRepository);
 const updateSellerProfileUseCase = new UpdateSellerProfileUseCase(userRepository, phoneService);
 const uploadAvatarUseCase = new UploadAvatarUseCase(userRepository, cloudinaryService);
 const deleteUserByIdUseCase = new DeleteUserByIdUseCase(userRepository, cloudinaryService, authRepository);
 
-const userController = new UserController(getUsersUseCase, getUserByIdUseCase, deleteUserByIdUseCase, getPastryByConfectionerCase);
+const userController = new UserController(getUsersUseCase, getUserByIdUseCase, deleteUserByIdUseCase, getPastryBySellerIdUseCase);
 const meController = new MeController(getUserByIdUseCase, updateSellerProfileUseCase, uploadAvatarUseCase);
 
 router.get('/', checkApiKey, (req, res) => userController.getUsers(req, res));
@@ -46,7 +46,7 @@ router.get('/me', checkAuthToken, (req, res) => meController.getMe(req, res));
 router.patch('/me/profile', checkAuthToken, validateUpdateProfile, (req, res) => meController.updateSellerProfile(req, res));
 router.put('/me/profile/avatar', checkAuthToken, uploadMiddleware, (req, res) => meController.uploadAvatar(req, res));
 router.get('/:id', checkAuthToken, (req, res) => userController.getUserById(req, res));
-router.get('/:id/pastries', checkAuthToken, (req, res) => userController.getPastriesByConfectioner(req, res));
+router.get('/:id/pastries', checkAuthToken, (req, res) => userController.getPastriesByseller(req, res));
 router.delete('/:id', checkApiKey, (req, res) => userController.deleteUserById(req, res));
 
 export { router as userRouter };

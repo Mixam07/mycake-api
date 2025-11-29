@@ -4,7 +4,7 @@ import { ReviewResponseDTO } from "../dtos/review.dto";
 import { GetReviewByIdUseCase } from "../../application/use-cases/get-review-by-id.use-case";
 import { GetReviewsUseCase } from "../../application/use-cases/get-reviews.use-case";
 import { DeleteReviewByIdUseCase } from "../../application/use-cases/delete-review-by-id.use-case";
-import { GetReviewsByConfectionerIdUseCase } from "../../application/use-cases/get-reviews-by-confectioner-id.use-case";
+import { GetReviewsBySellerIdUseCase } from "../../application/use-cases/get-reviews-by-seller-id.use-case";
 import { GetReviewsByPastryIdUseCase } from "../../application/use-cases/get-reviews-by-pastry-id.use-case";
 import { UpdateReviewByIdUseCase } from "../../application/use-cases/update-review-by-id.use-case";
 
@@ -14,7 +14,7 @@ export class ReviewController {
         private readonly createReviewUseCase: CreateReviewUseCase,
         private readonly getReviewsUseCase: GetReviewsUseCase,
         private readonly getReviewByIdUseCase: GetReviewByIdUseCase,
-        private readonly getReviewsByConfectionerIdUseCase: GetReviewsByConfectionerIdUseCase,
+        private readonly getReviewsBysellerIdUseCase: GetReviewsBySellerIdUseCase,
         private readonly getReviewsByPastryIdUseCase: GetReviewsByPastryIdUseCase,
         private readonly updateReviewByIdUseCase: UpdateReviewByIdUseCase,
         private readonly deleteReviewByIdUseCase: DeleteReviewByIdUseCase
@@ -82,12 +82,12 @@ export class ReviewController {
         }
     }
 
-    async getReviewsByConfectionerId(req: Request, res: Response) {
+    async getReviewsBySellerId(req: Request, res: Response) {
         try {
             const page = parseInt(req.query.page as string) || 1;
             const limit = parseInt(req.query.limit as string) || 10;
             
-            const { reviews, total } = await this.getReviewsByConfectionerIdUseCase.execute(req.params.id, page, limit);
+            const { reviews, total } = await this.getReviewsBysellerIdUseCase.execute(req.params.id, page, limit);
             
             res.status(200).json({
                 data: ReviewResponseDTO.fromEntities(reviews),

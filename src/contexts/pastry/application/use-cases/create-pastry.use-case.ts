@@ -13,10 +13,10 @@ export class CreatePastryUseCase {
         private readonly categoryRepository: ICategoryRepository,
     ) {}
 
-    async execute(dto: CreatePastryDto, confectionerId: string): Promise<Pastry> {
-        const confectioner = await this.userRepository.findById(confectionerId);
+    async execute(dto: CreatePastryDto, sellerId: string): Promise<Pastry> {
+        const seller = await this.userRepository.findById(sellerId);
 
-        if (!confectioner) {
+        if (!seller) {
             throw new Error('Користувач не знайдений');
         }
 
@@ -41,17 +41,18 @@ export class CreatePastryUseCase {
             dto.additionalServices,
             dto.minWeight,
             dto.maxWeight,
+            [],
             category.id,
-            confectioner.id,
+            seller.id,
             null,
             null
         );
 
-        confectioner.addPastryId(pastryId);
+        seller.addPastryId(pastryId);
         category.addPastryId(pastryId);
 
         await this.pastryRepository.save(pastry);
-        await this.userRepository.save(confectioner);
+        await this.userRepository.save(seller);
         await this.categoryRepository.save(category);
 
         return pastry;

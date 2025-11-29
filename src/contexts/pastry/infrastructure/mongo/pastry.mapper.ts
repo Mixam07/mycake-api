@@ -9,8 +9,8 @@ export class PastryMapper {
             ? CategoryMapper.toDomain(doc.category as any)
             : null;
 
-        const confectionerEntity = (doc.confectioner && typeof doc.confectioner === 'object' && '_id' in doc.confectioner)
-            ? UserMapper.toDomain(doc.confectioner as any)
+        const sellerEntity = (doc.seller && typeof doc.seller === 'object' && '_id' in doc.seller)
+            ? UserMapper.toDomain(doc.seller as any)
             : null;
 
         return new Pastry(
@@ -26,10 +26,11 @@ export class PastryMapper {
             doc.additionalServices,
             doc.minWeight,
             doc.maxWeight,
+            doc.reviewIds,
             doc.categoryId,
-            doc.confectionerId,
+            doc.sellerId,
             categoryEntity,
-            confectionerEntity,
+            sellerEntity,
             doc.createdAt || new Date(),
             doc.updatedAt || new Date(),
         );
@@ -49,8 +50,9 @@ export class PastryMapper {
             additionalServices: entity.additionalServices,
             minWeight: entity.minWeight,
             maxWeight: entity.maxWeight,
+            reviewIds: entity.reviewIds,
             categoryId: entity.categoryId,
-            confectionerId: entity.confectionerId,
+            sellerId: entity.sellerId,
             createdAt: entity.createdAt,
             updatedAt: entity.updatedAt,
         };

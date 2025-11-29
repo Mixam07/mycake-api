@@ -8,7 +8,8 @@ export class User {
         private _role: UserRole,
         private _avatarUrl?: string,
         private _sellerProfile?: ISellerProfile,
-        private _pastries: string[] = [],
+        private _pastryIds: string[] = [],
+        private _reviewIds: string[] = [],
         private readonly _createdAt: Date = new Date(),
         private readonly _updatedAt: Date = new Date(),
     ) {}
@@ -19,7 +20,8 @@ export class User {
     get role(): UserRole { return this._role; }
     get avatarUrl(): string | undefined { return this._avatarUrl; }
     get sellerProfile(): ISellerProfile | undefined { return this._sellerProfile; }
-    get pastries(): string[] { return this._pastries; }
+    get pastryIds(): string[] { return this._pastryIds; }
+    get reviewIds(): string[] { return this._reviewIds; }
     get createdAt(): Date { return this._createdAt; }
     get updatedAt(): Date { return this._updatedAt; }
 
@@ -43,17 +45,36 @@ export class User {
             throw new Error('Покупці не можуть додавати товари');
         }
 
-        if (this._pastries.includes(pastryId)) {
+        if (this._pastryIds.includes(pastryId)) {
             return;
         }
 
-        this._pastries = [
-            ...this._pastries,
+        this._pastryIds = [
+            ...this._pastryIds,
             pastryId
         ]
     }
 
     public removePastryId(pastryId: string) {
-        this._pastries = this._pastries.filter(id => id !== pastryId);
+        this._pastryIds = this._pastryIds.filter(id => id !== pastryId);
+    }
+
+    public addReviewId(reviewId: string) {
+        if (this._role !== 'Seller') {
+            throw new Error('У покупців немає відгуків');
+        }
+
+        if (this._reviewIds.includes(reviewId)) {
+            return;
+        }
+
+        this._reviewIds = [
+            ...this._reviewIds,
+            reviewId
+        ]
+    }
+
+    public removeReviewId(reviewId: string) {
+        this._reviewIds = this._reviewIds.filter(id => id !== reviewId);
     }
 }

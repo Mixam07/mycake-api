@@ -9,7 +9,7 @@ export interface IPastryRepository {
     save(pastry: Pastry): Promise<void>;
     find(page?: number, limit?: number): Promise<PaginatedPastries>;
     findById(id: string): Promise<Pastry | null>;
-    findByConfectionerId(confectionerId: string): Promise<Pastry[]>;
+    findBySellerId(sellerId: string): Promise<Pastry[]>;
     findByCategoryId(categoryId: string): Promise<Pastry[]>;
     deleteById(patryId: string): Promise<Pastry | null>;
 }

@@ -16,10 +16,11 @@ export class Pastry {
         private _additionalServices: string[],
         private _minWeight: number,
         private _maxWeight: number,
+        private _reviewIds: string[] = [],
         private readonly _categoryId: string,
-        private readonly _confectionerId: string,
+        private readonly _sellerId: string,
         private readonly _category: Category | null,
-        private readonly _confectioner: User | null,
+        private readonly _seller: User | null,
         private readonly _createdAt: Date = new Date(),
         private readonly _updatedAt: Date = new Date(),
     ) {}
@@ -36,10 +37,11 @@ export class Pastry {
     get additionalServices(): string[] { return this._additionalServices; }
     get minWeight(): number { return this._minWeight; }
     get maxWeight(): number { return this._maxWeight; }
+    get reviewIds(): string[] { return this._reviewIds; }
     get categoryId(): string { return this._categoryId; }
-    get confectionerId(): string { return this._confectionerId }
+    get sellerId(): string { return this._sellerId }
     get categoryName(): string | null { return this._category?.name || null; }
-    get confectionerName(): string | null { return this._confectioner?.name || null; }
+    get sellerName(): string | null { return this._seller?.name || null; }
     get createdAt(): Date { return this._createdAt; }
     get updatedAt(): Date { return this._updatedAt; }
 
@@ -53,5 +55,20 @@ export class Pastry {
 
     public addImages(images: string[]) {
         this._images = images;
+    }
+
+    public addReviewId(reviewId: string) {
+        if (this._reviewIds.includes(reviewId)) {
+            return;
+        }
+
+        this._reviewIds = [
+            ...this._reviewIds,
+            reviewId
+        ]
+    }
+
+    public removeReviewId(reviewId: string) {
+        this._reviewIds = this._reviewIds.filter(id => id !== reviewId);
     }
 }
